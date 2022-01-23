@@ -12,9 +12,9 @@ namespace SuchByte.TwitchPlugin.Actions
 {
     public class SetFollowerChatAction : PluginAction
     {
-        public override string Name => "Follower only chat";
+        public override string Name => "Followers only chat";
 
-        public override string Description => "";
+        public override string Description => "Enable/disable the followers only chat";
 
         public override bool CanConfigure => true;
 

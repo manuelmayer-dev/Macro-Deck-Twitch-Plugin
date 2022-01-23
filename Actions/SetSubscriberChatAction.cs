@@ -12,9 +12,9 @@ namespace SuchByte.TwitchPlugin.Actions
 {
     public class SetSubscriberChatAction : PluginAction
     {
-        public override string Name => "Subscriber only chat";
+        public override string Name => "Subscribers only chat";
 
-        public override string Description => "";
+        public override string Description => "Enable/disable the subscribers only chat";
 
         public override bool CanConfigure => true;
 

@@ -24,7 +24,7 @@ namespace SuchByte.TwitchPlugin
 
         private MainWindow mainWindow;
 
-        public override string Description => "Control Twitch with Macro Deck";
+        public override string Description => "Control Twitch using Macro Deck 2";
 
         public Main()
         {

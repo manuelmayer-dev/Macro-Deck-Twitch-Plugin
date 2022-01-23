@@ -14,7 +14,7 @@ namespace SuchByte.TwitchPlugin.Actions
     {
         public override string Name => "Slow chat";
 
-        public override string Description => "";
+        public override string Description => "Enable/disable the followers only chat";
 
         public override bool CanConfigure => true;
 
