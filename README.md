@@ -1,7 +1,7 @@
-# Twitch plugin for Macro Deck 2
+# Twitch plugin for Macro Deck 2 (WIP)
 Control Twitch using Macro Deck 2
 
-## This plugin is a beta stage. Many features are missing that will come in the future!
+## This plugin is WIP and will be available soon!
 
 ## Features
 | Action | Description |
