@@ -4,15 +4,15 @@ Control Twitch using Macro Deck 2
 ## This plugin is WIP and will be available soon!
 
 ## Features
-| Action | Description |
-| --- | --- |
-| Clear chat | Clears the chat. |
-| Play commercial | Plays a commercial. A Twitch Partner or Affiliate account is required! |
-| Send chat message | Sends the configured message in the chat. |
-| Followers only chat | Enables/disables the followers only chat. |
-| Slow chat | Enables/disables the slow chat. |
-| Subscribers only chat | Enables/disables the subscribers only chat. |
-| Stream marker | Places a stream marker. Only works while you're live! |
+|Action|Description|
+|---|---|
+|Clear chat|Clears the chat.|
+|Play commercial|Plays a commercial. A Twitch Partner or Affiliate account is required!|
+|Send chat message|Sends the configured message in the chat.|
+|Followers only chat|Enables/disables the followers only chat.|
+|Slow chat|Enables/disables the slow chat.|
+|Subscribers only chat| Enables/disables the subscribers only chat.|
+|Stream marker|Places a stream marker. Only works while you're live!|
 
 More actions coming soon...
 
@@ -21,7 +21,7 @@ This plugin does not feature variables at the moment, but it's a planned feature
 
 ## Helping with the translation
 All translation files are located under https://github.com/SuchByte/Macro-Deck-Twitch-Plugin/tree/master/Resources/Languages
-## Adding/editing a translation file
+### Adding/editing a translation file
 1. Fork this GitHub repository
 2. Add/edit the translation files
 3. Create a pull request of the forked repository
