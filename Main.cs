@@ -3,6 +3,7 @@ using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
 using SuchByte.TwitchPlugin.Actions;
+using SuchByte.TwitchPlugin.Language;
 using SuchByte.TwitchPlugin.Models;
 using SuchByte.TwitchPlugin.Views;
 using System;
@@ -39,6 +40,7 @@ namespace SuchByte.TwitchPlugin
 
         public override void Enable()
         {
+            PluginLanguageManager.Initialize();
             this.Actions = new List<PluginAction>()
             {
                 new SetTitleGameAction(),

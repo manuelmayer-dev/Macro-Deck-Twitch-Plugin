@@ -101,7 +101,6 @@ namespace SuchByte.TwitchPlugin.Views
             this.btnGetToken.TabIndex = 4;
             this.btnGetToken.TabStop = false;
             this.btnGetToken.Text = "Get token";
-            this.btnGetToken.UseWindowsAccentColor = true;
             this.btnGetToken.Click += new System.EventHandler(this.BtnGetToken_Click);
             // 
             // btnOk
@@ -121,7 +120,6 @@ namespace SuchByte.TwitchPlugin.Views
             this.btnOk.TabIndex = 5;
             this.btnOk.TabStop = false;
             this.btnOk.Text = "Ok";
-            this.btnOk.UseWindowsAccentColor = true;
             this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
             // 
             // lblUsername
