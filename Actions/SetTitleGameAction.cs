@@ -12,7 +12,7 @@ namespace SuchByte.TwitchPlugin.Actions
 {
     public class SetTitleGameAction : PluginAction
     {
-        public override string Name => "Set title and game";
+        public override string Name => "Set stream title/game";
 
         public override string Description => "Sets the stream title and the game";
 

@@ -49,7 +49,7 @@ namespace SuchByte.TwitchPlugin.ViewModels
 
         public void SetConfig()
         {
-            _action.ConfigurationSummary = nameof(Configuration.Method);
+            _action.ConfigurationSummary = Configuration.Method.ToString();
             _action.Configuration = Configuration.Serialize();
         }
 

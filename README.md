@@ -18,10 +18,10 @@ Control Twitch using Macro Deck 2
 ## Variables
 | Variable | Description | Type |
 | --- | --- | --- |
-| USER_slow_chat | Indicates if the slow chat is enabled or disabled | Boolean |
-| USER_followers_only_chat | Indicates if the followers only chat is enabled or disabled | Boolean |
-| USER_subs_only_chat | Indicates if the subs only chat is enabled or disabled | Boolean |
-| USER_emotes_only_chat | Indicates if the emotes only chat is enabled or disabled | Boolean |
+| USER_slow_chat | Indicates if the slow chat is enabled or disabled<br />Can be bound to the button state | Boolean |
+| USER_followers_only_chat | Indicates if the followers only chat is enabled or disabled<br />Can be bound to the button state | Boolean |
+| USER_subs_only_chat | Indicates if the subs only chat is enabled or disabled<br />Can be bound to the button state | Boolean |
+| USER_emotes_only_chat | Indicates if the emotes only chat is enabled or disabled<br />Can be bound to the button state | Boolean |
 | USER_viewers | The current viewer count of the live stream (Only while you're live!) | Number |
 | USER_subscribers | The current subscribers count of the channel | Number |
 | USER_followers | The current followers count of the channel | Number |

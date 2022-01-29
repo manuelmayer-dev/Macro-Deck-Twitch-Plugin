@@ -212,7 +212,6 @@ namespace SuchByte.TwitchPlugin
                 _client.OnLog += Client_OnLog;
                 _client.OnError += Client_OnError;
                 _client.OnJoinedChannel += Client_OnJoinedChannel;
-                _client.OnNewSubscriber += Client_OnNewSubscriber;
                 _client.OnConnected += Client_OnConnected;
                 _client.OnChannelStateChanged += Client_OnChannelStateChanged;
 
@@ -306,12 +305,6 @@ namespace SuchByte.TwitchPlugin
             {
                 ConnectionStateChanged(null, EventArgs.Empty);
             }
-        }
-
-        private static void Client_OnNewSubscriber(object sender, OnNewSubscriberArgs e)
-        {
-            MacroDeckLogger.Info(PluginInstance.Main, $"{ e.Subscriber.DisplayName } subscribed");
-            VariableManager.SetValue(TwitchAccount.TwitchUserName + "_newest_sub", e.Subscriber.DisplayName, VariableType.String, PluginInstance.Main);
         }
 
         public static void ClearChat()
