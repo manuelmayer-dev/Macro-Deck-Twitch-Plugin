@@ -156,6 +156,7 @@ namespace SuchByte.TwitchPlugin
         private static async void UpdateFollowersAsync()
         {
             MacroDeckLogger.Trace(PluginInstance.Main, "Updating followers count");
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(userId)) return;
             try
             {
                 var followers = await _api.Helix.Users.GetUsersFollowsAsync(toId: userId);
@@ -170,6 +171,7 @@ namespace SuchByte.TwitchPlugin
         private static async void UpdateSubscribersAsync()
         {
             MacroDeckLogger.Trace(PluginInstance.Main, "Updating subscribers count");
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(userId)) return;
             try
             {
                 var subscribers = await _api.Helix.Subscriptions.GetBroadcasterSubscriptionsAsync(userId);
@@ -196,6 +198,7 @@ namespace SuchByte.TwitchPlugin
 
         private static async void UpdateChannelSettingsAsync()
         {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(userId)) return;
             try
             {
                 GetChatSettingsResponse channelSettings = await _api.Helix.Chat.GetChatSettingsAsync(userId, userId);
@@ -225,6 +228,7 @@ namespace SuchByte.TwitchPlugin
         private static async void UpdateViewerCountAsync()
         {
             MacroDeckLogger.Trace(PluginInstance.Main, "Updating viewers count");
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(userId)) return;
             try
             {
                 var users = await _api.Helix.Users.GetUsersAsync();

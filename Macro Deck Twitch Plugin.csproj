@@ -6,7 +6,7 @@
 	  <UseWindowsForms>true</UseWindowsForms>
 	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <AssemblyName>Twitch Plugin</AssemblyName>
-    <Version>0.0.1-pre</Version>
+    <Version>0.1.1-beta</Version>
     <Authors>Macro Deck</Authors>
     <Copyright>SuchByte</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
