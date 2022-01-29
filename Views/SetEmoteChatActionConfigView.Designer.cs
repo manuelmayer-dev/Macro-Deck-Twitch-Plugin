@@ -1,7 +1,7 @@
 ﻿
 namespace SuchByte.TwitchPlugin.Views
 {
-    partial class SetSubscriberChatActionConfigView
+    partial class SetEmoteChatActionConfigView
     {
         /// <summary> 
         /// Erforderliche Designervariable.
@@ -41,7 +41,7 @@ namespace SuchByte.TwitchPlugin.Views
             this.radioToggle.Location = new System.Drawing.Point(467, 199);
             this.radioToggle.Name = "radioToggle";
             this.radioToggle.Size = new System.Drawing.Size(135, 27);
-            this.radioToggle.TabIndex = 11;
+            this.radioToggle.TabIndex = 14;
             this.radioToggle.TabStop = true;
             this.radioToggle.Text = "Toggle";
             this.radioToggle.UseVisualStyleBackColor = true;
@@ -53,7 +53,7 @@ namespace SuchByte.TwitchPlugin.Views
             this.radioOff.Location = new System.Drawing.Point(361, 199);
             this.radioOff.Name = "radioOff";
             this.radioOff.Size = new System.Drawing.Size(100, 27);
-            this.radioOff.TabIndex = 10;
+            this.radioOff.TabIndex = 13;
             this.radioOff.TabStop = true;
             this.radioOff.Text = "Off";
             this.radioOff.UseVisualStyleBackColor = true;
@@ -65,20 +65,20 @@ namespace SuchByte.TwitchPlugin.Views
             this.radioOn.Location = new System.Drawing.Point(255, 199);
             this.radioOn.Name = "radioOn";
             this.radioOn.Size = new System.Drawing.Size(100, 27);
-            this.radioOn.TabIndex = 9;
+            this.radioOn.TabIndex = 12;
             this.radioOn.TabStop = true;
             this.radioOn.Text = "On";
             this.radioOn.UseVisualStyleBackColor = true;
             // 
-            // SetSubscriberChatActionConfigView
+            // SetEmoteChatActionConfigView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.radioToggle);
             this.Controls.Add(this.radioOff);
             this.Controls.Add(this.radioOn);
-            this.Name = "SetSubscriberChatActionConfigView";
-            this.Load += new System.EventHandler(this.SetSubscriberChatActionConfigView_Load);
+            this.Name = "SetEmoteChatActionConfigView";
+            this.Load += new System.EventHandler(this.SetEmoteChatActionConfigView_Load);
             this.ResumeLayout(false);
 
         }

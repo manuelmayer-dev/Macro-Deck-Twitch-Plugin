@@ -10,11 +10,11 @@ using System.Text;
 
 namespace SuchByte.TwitchPlugin.Actions
 {
-    public class SetSlowChatAction : PluginAction
+    public class SetEmoteChatAction : PluginAction
     {
-        public override string Name => "Slow chat";
+        public override string Name => "Only emote chat";
 
-        public override string Description => "Enable/disable the followers only chat";
+        public override string Description => "Enable/disable the emote only chat";
 
         public override bool CanConfigure => true;
 
@@ -26,20 +26,20 @@ namespace SuchByte.TwitchPlugin.Actions
                 switch (configModel.Method)
                 {
                     case SetSlowChatActionMethod.On:
-                        TwitchHelper.SetSlowChat(true, TimeSpan.FromSeconds(configModel.MessageCooldown));
+                        TwitchHelper.SetEmoteChat(true);
                         break;
                     case SetSlowChatActionMethod.Off:
-                        TwitchHelper.SetSlowChat(false, TimeSpan.Zero);
+                        TwitchHelper.SetEmoteChat(false);
                         break;
                     case SetSlowChatActionMethod.Toggle:
-                        TwitchHelper.SetSlowChat(!TwitchHelper.SlowChat, TimeSpan.FromSeconds(configModel.MessageCooldown));
+                        TwitchHelper.SetEmoteChat(!TwitchHelper.EmotesOnlyChat);
                         break;
                 }
             }
         }
         public override ActionConfigControl GetActionConfigControl(ActionConfigurator actionConfigurator)
         {
-            return new SetSlowChatActionConfigView(this);
+            return new SetEmoteChatActionConfigView(this);
         }
     }
 }

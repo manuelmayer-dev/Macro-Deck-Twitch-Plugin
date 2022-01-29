@@ -85,7 +85,7 @@ namespace SuchByte.TwitchPlugin.Views
         {
             var p = new Process
             {
-                StartInfo = new ProcessStartInfo("https://twitchapps.com/tmi/")
+                StartInfo = new ProcessStartInfo("https://macrodeck.org/twitchauth.php")
                 {
                     UseShellExecute = true,
                 }

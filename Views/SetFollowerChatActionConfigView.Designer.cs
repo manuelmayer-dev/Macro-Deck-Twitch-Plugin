@@ -44,7 +44,7 @@ namespace SuchByte.TwitchPlugin.Views
             // 
             this.radioOn.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.radioOn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.radioOn.Location = new System.Drawing.Point(325, 196);
+            this.radioOn.Location = new System.Drawing.Point(255, 183);
             this.radioOn.Name = "radioOn";
             this.radioOn.Size = new System.Drawing.Size(100, 27);
             this.radioOn.TabIndex = 0;
@@ -56,7 +56,7 @@ namespace SuchByte.TwitchPlugin.Views
             // 
             this.radioOff.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.radioOff.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.radioOff.Location = new System.Drawing.Point(431, 196);
+            this.radioOff.Location = new System.Drawing.Point(361, 183);
             this.radioOff.Name = "radioOff";
             this.radioOff.Size = new System.Drawing.Size(100, 27);
             this.radioOff.TabIndex = 1;
@@ -68,21 +68,20 @@ namespace SuchByte.TwitchPlugin.Views
             // 
             this.radioToggle.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.radioToggle.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.radioToggle.Location = new System.Drawing.Point(460, 120);
+            this.radioToggle.Location = new System.Drawing.Point(467, 183);
             this.radioToggle.Name = "radioToggle";
             this.radioToggle.Size = new System.Drawing.Size(135, 27);
             this.radioToggle.TabIndex = 2;
             this.radioToggle.TabStop = true;
             this.radioToggle.Text = "Toggle";
             this.radioToggle.UseVisualStyleBackColor = true;
-            this.radioToggle.Visible = false;
             // 
             // requiredFollowTime
             // 
             this.requiredFollowTime.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.requiredFollowTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.requiredFollowTime.ForeColor = System.Drawing.Color.White;
-            this.requiredFollowTime.Location = new System.Drawing.Point(396, 255);
+            this.requiredFollowTime.Location = new System.Drawing.Point(396, 216);
             this.requiredFollowTime.Maximum = new decimal(new int[] {
             90,
             0,
@@ -100,7 +99,7 @@ namespace SuchByte.TwitchPlugin.Views
             this.unit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.unit.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.unit.Icon = null;
-            this.unit.Location = new System.Drawing.Point(482, 255);
+            this.unit.Location = new System.Drawing.Point(482, 216);
             this.unit.Name = "unit";
             this.unit.Padding = new System.Windows.Forms.Padding(8, 2, 8, 2);
             this.unit.SelectedIndex = -1;
@@ -112,7 +111,7 @@ namespace SuchByte.TwitchPlugin.Views
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(208, 254);
+            this.label1.Location = new System.Drawing.Point(208, 215);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(182, 26);
             this.label1.TabIndex = 4;

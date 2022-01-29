@@ -32,7 +32,7 @@ namespace SuchByte.TwitchPlugin.Actions
                         TwitchHelper.FollowerChat(false, TimeSpan.Zero);
                         break;
                     case SetFollowerChatActionMethod.Toggle:
-                        //TwitchHelper.FollowerChat(!TwitchHelper.FollowersOnlyChat, TimeSpan.FromSeconds(configModel.RequiredFollowTime));
+                        TwitchHelper.FollowerChat(!TwitchHelper.FollowersOnlyChat, TimeSpan.FromSeconds(configModel.RequiredFollowTime));
                         break;
                 }
             }

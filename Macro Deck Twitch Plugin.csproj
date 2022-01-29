@@ -6,7 +6,7 @@
 	  <UseWindowsForms>true</UseWindowsForms>
 	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <AssemblyName>Twitch Plugin</AssemblyName>
-    <Version>0.0.1-beta</Version>
+    <Version>0.0.1-pre</Version>
     <Authors>Macro Deck</Authors>
     <Copyright>SuchByte</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -19,6 +19,7 @@
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
     <PackageReference Include="TwitchLib" Version="3.3.0" />
+    <PackageReference Include="TwitchLib.Api.Helix" Version="3.4.1" />
   </ItemGroup>
 
   <ItemGroup>

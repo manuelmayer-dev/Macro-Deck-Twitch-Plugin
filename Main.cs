@@ -7,6 +7,7 @@ using SuchByte.TwitchPlugin.Models;
 using SuchByte.TwitchPlugin.Views;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SuchByte.TwitchPlugin
@@ -20,9 +21,11 @@ namespace SuchByte.TwitchPlugin
     {
         private ContentSelectorButton statusButton = new ContentSelectorButton();
 
-        private ToolTip statusToolTip = new ToolTip();
+        private readonly ToolTip statusToolTip = new ToolTip();
 
         private MainWindow mainWindow;
+
+        public override Image Icon => Properties.Resources.Twitch_Plugin;
 
         public override string Description => "Control Twitch using Macro Deck 2";
 
@@ -38,11 +41,13 @@ namespace SuchByte.TwitchPlugin
         {
             this.Actions = new List<PluginAction>()
             {
+                new SetTitleGameAction(),
                 new ClearChatAction(),
                 new PlayAdAction(),
                 new SendChatMessageAction(),
                 new SetFollowerChatAction(),
                 new SetSlowChatAction(),
+                new SetEmoteChatAction(),
                 new SetSubscriberChatAction(),
                 new StreamMarkerAction(),
 

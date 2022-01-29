@@ -32,7 +32,7 @@ namespace SuchByte.TwitchPlugin.Actions
                         TwitchHelper.SetSubscriberChat(false);
                         break;
                     case SetSubscriberChatActionMethod.Toggle:
-                        //TwitchHelper.SetSubscriberChat(!TwitchHelper.SubsciberOnlyChat);
+                        TwitchHelper.SetSubscriberChat(!TwitchHelper.SubscibersOnlyChat);
                         break;
                 }
             }
