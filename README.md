@@ -1,15 +1,13 @@
-# Twitch plugin for Macro Deck 2 (WIP)
+# Twitch plugin for Macro Deck 2
 Control Twitch using Macro Deck 2
-
-## This plugin is WIP and will be available soon!
 
 ## Features
 | Action | Description |
 | --- | --- |
-| Set stream title/game | Sets the stream title and the game |
+| Set stream title/game | Sets the stream title and the game. (Optional with variables) |
 | Clear chat | Clears the chat. |
 | Play commercial | Plays a commercial. A Twitch Partner or Affiliate account is required! |
-| Send chat message | Sends the configured message in the chat. |
+| Send chat message | Sends the configured message in the chat. (Optional with variables) |
 | Followers only chat | Enables/disables the followers only chat. |
 | Slow chat | Enables/disables the slow chat. |
 | Subscribers only chat | Enables/disables the subscribers only chat. |
