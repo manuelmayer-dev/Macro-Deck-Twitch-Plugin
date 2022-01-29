@@ -1,2 +1,2 @@
 ## Looking for the translation files?
-https://github.com/SuchByte/Macro-Deck-OBS-WebSocket-Plugin/tree/master/Resources/Languages
+https://github.com/SuchByte/Macro-Deck-Twitch-Plugin/tree/master/Resources/Languages
