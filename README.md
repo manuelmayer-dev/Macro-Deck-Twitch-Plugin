@@ -4,20 +4,27 @@ Control Twitch using Macro Deck 2
 ## This plugin is WIP and will be available soon!
 
 ## Features
-|Action|Description|
-|---|---|
-|Clear chat|Clears the chat.|
-|Play commercial|Plays a commercial. A Twitch Partner or Affiliate account is required!|
-|Send chat message|Sends the configured message in the chat.|
-|Followers only chat|Enables/disables the followers only chat.|
-|Slow chat|Enables/disables the slow chat.|
-|Subscribers only chat| Enables/disables the subscribers only chat.|
-|Stream marker|Places a stream marker. Only works while you're live!|
-
-More actions coming soon...
+| Action | Description |
+| --- | --- |
+| Set stream title/game | Sets the stream title and the game |
+| Clear chat | Clears the chat. |
+| Play commercial | Plays a commercial. A Twitch Partner or Affiliate account is required! |
+| Send chat message | Sends the configured message in the chat. |
+| Followers only chat | Enables/disables the followers only chat. |
+| Slow chat | Enables/disables the slow chat. |
+| Subscribers only chat | Enables/disables the subscribers only chat. |
+| Stream marker | Places a stream marker. Only works while you're live! |
 
 ## Variables
-This plugin does not feature variables at the moment, but it's a planned feature that will come in the future
+| Variable | Description | Type |
+| --- | --- | --- |
+| USER_slow_chat | Indicates if the slow chat is enabled or disabled | Boolean |
+| USER_followers_only_chat | Indicates if the followers only chat is enabled or disabled | Boolean |
+| USER_subs_only_chat | Indicates if the subs only chat is enabled or disabled | Boolean |
+| USER_emotes_only_chat | Indicates if the emotes only chat is enabled or disabled | Boolean |
+| USER_viewers | The current viewer count of the live stream (Only while you're live!) | Number |
+| USER_subscribers | The current subscribers count of the channel | Number |
+| USER_followers | The current followers count of the channel | Number |
 
 ## Helping with the translation
 All translation files are located under https://github.com/SuchByte/Macro-Deck-Twitch-Plugin/tree/master/Resources/Languages
