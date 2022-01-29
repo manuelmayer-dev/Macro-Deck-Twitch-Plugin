@@ -1,5 +1,6 @@
 ﻿using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Language;
+using SuchByte.TwitchPlugin.Language;
 using SuchByte.TwitchPlugin.Models;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,9 @@ namespace SuchByte.TwitchPlugin.Views
         public PluginConfigView()
         {
             InitializeComponent();
+            this.lblAuthToken.Text = PluginLanguageManager.PluginStrings.AuthToken;
+            this.btnGetToken.Text = PluginLanguageManager.PluginStrings.GetToken;
+            this.btnOk.Text = LanguageManager.Strings.Ok;
         }
 
         private void PluginConfigView_Load(object sender, EventArgs e)
@@ -27,20 +31,19 @@ namespace SuchByte.TwitchPlugin.Views
             TwitchAccount twitchAccount = CredentialsHelper.GetTwitchAccount();
             if (twitchAccount != null)
             {
-                this.username.Text = twitchAccount.TwitchUserName;
                 this.oAuthToken.Text = twitchAccount.TwitchAccessToken;
             }
         }
 
         private void TwitchHelper_LoginSuccessful(object sender, EventArgs e)
         {
-            CredentialsHelper.UpdateCredentials(TwitchHelper.TwitchAccount);
+            CredentialsHelper.UpdateCredentials(new TwitchAccount { TwitchAccessToken = this.oAuthToken.Text });
             this.Invoke(new Action(() =>
             {
 
                 using (var msgBox = new MacroDeck.GUI.CustomControls.MessageBox())
                 {
-                    msgBox.ShowDialog(LanguageManager.Strings.Info, "Login successful.", MessageBoxButtons.OK);
+                    msgBox.ShowDialog(LanguageManager.Strings.Info, PluginLanguageManager.PluginStrings.LoginSuccessful, MessageBoxButtons.OK);
                 }
                 this.Close();
             }));
@@ -52,7 +55,7 @@ namespace SuchByte.TwitchPlugin.Views
             {
                 using (var msgBox = new MacroDeck.GUI.CustomControls.MessageBox())
                 {
-                    msgBox.ShowDialog(LanguageManager.Strings.Error, "Login failed. Please make sure the user name and the OAuth token is correct.", MessageBoxButtons.OK);
+                    msgBox.ShowDialog(LanguageManager.Strings.Error, PluginLanguageManager.PluginStrings.LoginFailed, MessageBoxButtons.OK);
                 }
                 this.Close();
             }));
@@ -60,25 +63,16 @@ namespace SuchByte.TwitchPlugin.Views
 
         private void BtnOk_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(this.username.Text))
-            {
-                using (var msgBox = new MacroDeck.GUI.CustomControls.MessageBox())
-                {
-                    msgBox.ShowDialog(LanguageManager.Strings.Error, "User name cannot be empty", MessageBoxButtons.OK);
-                }
-                return;
-            }
-
             if (string.IsNullOrWhiteSpace(this.oAuthToken.Text))
             {
                 using (var msgBox = new MacroDeck.GUI.CustomControls.MessageBox())
                 {
-                    msgBox.ShowDialog(LanguageManager.Strings.Error, "OAuth token cannot be empty", MessageBoxButtons.OK);
+                    msgBox.ShowDialog(LanguageManager.Strings.Error, PluginLanguageManager.PluginStrings.TokenCannotBeEmpty, MessageBoxButtons.OK);
                 }
                 return;
             }
 
-            TwitchHelper.Connect(new Models.TwitchAccount() { TwitchUserName = this.username.Text, TwitchAccessToken = this.oAuthToken.Text });
+            TwitchHelper.Connect(new TwitchAccount() { TwitchAccessToken = this.oAuthToken.Text });
         }
 
         private void BtnGetToken_Click(object sender, EventArgs e)

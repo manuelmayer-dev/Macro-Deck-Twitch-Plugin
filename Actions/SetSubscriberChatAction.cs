@@ -2,6 +2,7 @@
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
+using SuchByte.TwitchPlugin.Language;
 using SuchByte.TwitchPlugin.Models;
 using SuchByte.TwitchPlugin.Views;
 using System;
@@ -12,9 +13,9 @@ namespace SuchByte.TwitchPlugin.Actions
 {
     public class SetSubscriberChatAction : PluginAction
     {
-        public override string Name => "Subscribers only chat";
+        public override string Name => PluginLanguageManager.PluginStrings.ActionSetSubscriberChat;
 
-        public override string Description => "Enable/disable the subscribers only chat";
+        public override string Description => PluginLanguageManager.PluginStrings.ActionSetSubscriberChatDescription;
 
         public override bool CanConfigure => true;
 

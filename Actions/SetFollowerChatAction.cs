@@ -2,6 +2,7 @@
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
+using SuchByte.TwitchPlugin.Language;
 using SuchByte.TwitchPlugin.Models;
 using SuchByte.TwitchPlugin.Views;
 using System;
@@ -12,9 +13,9 @@ namespace SuchByte.TwitchPlugin.Actions
 {
     public class SetFollowerChatAction : PluginAction
     {
-        public override string Name => "Followers only chat";
+        public override string Name => PluginLanguageManager.PluginStrings.ActionSetFollowerChat;
 
-        public override string Description => "Enable/disable the followers only chat";
+        public override string Description => PluginLanguageManager.PluginStrings.ActionSetFollowerChatDescription;
 
         public override bool CanConfigure => true;
 

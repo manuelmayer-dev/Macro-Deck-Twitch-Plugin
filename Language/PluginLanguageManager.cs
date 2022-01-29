@@ -4,6 +4,7 @@
 
 using SuchByte.MacroDeck.Language;
 using SuchByte.MacroDeck.Logging;
+using SuchByte.MacroDeck.Plugins;
 using SuchByte.TwitchPlugin;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,8 @@ namespace SuchByte.TwitchPlugin.Language
 
         public static void Initialize()
         {
-            LoadLanguage();
+            //SaveDefault();
+            LoadLanguage();            
             LanguageManager.LanguageChanged += (s, e) => LoadLanguage();
         }
 
@@ -44,6 +46,27 @@ namespace SuchByte.TwitchPlugin.Language
             {
                 //fallback - should never occur if things are done properly
                 PluginStrings = new PluginStrings();
+            }
+        }
+
+        private static void SaveDefault()
+        {
+            try
+            {
+                XmlSerializer writer = new XmlSerializer(typeof(PluginStrings));
+
+                var path = Path.Combine(PluginManager.PluginDirectories[PluginInstance.Main], PluginStrings.__Language__ + ".xml");
+
+                using (FileStream fileStream = File.Create(path))
+                {
+                    writer.Serialize(fileStream, PluginStrings);
+                    fileStream.Close();
+                }
+                MacroDeckLogger.Info(PluginInstance.Main, "Successfully exported default language strings");
+            }
+            catch (Exception ex)
+            {
+                MacroDeckLogger.Error(PluginInstance.Main, $"Error while exporting default language strings: {ex.Message + Environment.NewLine + ex.StackTrace}");
             }
         }
 

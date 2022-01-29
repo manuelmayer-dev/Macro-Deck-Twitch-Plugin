@@ -1,5 +1,6 @@
 ﻿using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
+using SuchByte.TwitchPlugin.Language;
 using SuchByte.TwitchPlugin.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace SuchByte.TwitchPlugin.Views
         public PlayAdActionConfigView(PluginAction action)
         {
             InitializeComponent();
+            this.lblLength.Text = PluginLanguageManager.PluginStrings.GeneralLength;
 
             this._viewModel = new PlayAdActionConfigViewModel(action);
         }

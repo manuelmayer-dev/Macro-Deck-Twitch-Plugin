@@ -36,7 +36,7 @@ namespace SuchByte.TwitchPlugin.Views
             this.radioToggle = new SuchByte.MacroDeck.GUI.CustomControls.TabRadioButton();
             this.requiredFollowTime = new System.Windows.Forms.NumericUpDown();
             this.unit = new SuchByte.MacroDeck.GUI.CustomControls.RoundedComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblRequiredFollowTime = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.requiredFollowTime)).BeginInit();
             this.SuspendLayout();
             // 
@@ -107,23 +107,23 @@ namespace SuchByte.TwitchPlugin.Views
             this.unit.Size = new System.Drawing.Size(166, 26);
             this.unit.TabIndex = 5;
             // 
-            // label1
+            // lblRequiredFollowTime
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(208, 215);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(182, 26);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Required follow time";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblRequiredFollowTime.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblRequiredFollowTime.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblRequiredFollowTime.Location = new System.Drawing.Point(208, 215);
+            this.lblRequiredFollowTime.Name = "lblRequiredFollowTime";
+            this.lblRequiredFollowTime.Size = new System.Drawing.Size(182, 26);
+            this.lblRequiredFollowTime.TabIndex = 4;
+            this.lblRequiredFollowTime.Text = "Required follow time";
+            this.lblRequiredFollowTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // SetFollowerChatActionConfigView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.unit);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblRequiredFollowTime);
             this.Controls.Add(this.requiredFollowTime);
             this.Controls.Add(this.radioToggle);
             this.Controls.Add(this.radioOff);
@@ -142,6 +142,6 @@ namespace SuchByte.TwitchPlugin.Views
         private TabRadioButton radioToggle;
         private System.Windows.Forms.NumericUpDown requiredFollowTime;
         private RoundedComboBox unit;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblRequiredFollowTime;
     }
 }

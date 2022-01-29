@@ -29,25 +29,25 @@ namespace SuchByte.TwitchPlugin.Views
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblMessageCooldown = new System.Windows.Forms.Label();
             this.cooldown = new System.Windows.Forms.NumericUpDown();
             this.radioToggle = new SuchByte.MacroDeck.GUI.CustomControls.TabRadioButton();
             this.radioOff = new SuchByte.MacroDeck.GUI.CustomControls.TabRadioButton();
             this.radioOn = new SuchByte.MacroDeck.GUI.CustomControls.TabRadioButton();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblSeconds = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.cooldown)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // lblMessageCooldown
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(243, 215);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(182, 26);
-            this.label1.TabIndex = 10;
-            this.label1.Text = "Message cooldown";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblMessageCooldown.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblMessageCooldown.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblMessageCooldown.Location = new System.Drawing.Point(243, 215);
+            this.lblMessageCooldown.Name = "lblMessageCooldown";
+            this.lblMessageCooldown.Size = new System.Drawing.Size(182, 26);
+            this.lblMessageCooldown.TabIndex = 10;
+            this.lblMessageCooldown.Text = "Message cooldown";
+            this.lblMessageCooldown.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // cooldown
             // 
@@ -110,23 +110,23 @@ namespace SuchByte.TwitchPlugin.Views
             this.radioOn.Text = "On";
             this.radioOn.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // lblSeconds
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label2.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(512, 216);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(125, 26);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "seconds";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSeconds.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblSeconds.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblSeconds.Location = new System.Drawing.Point(512, 216);
+            this.lblSeconds.Name = "lblSeconds";
+            this.lblSeconds.Size = new System.Drawing.Size(125, 26);
+            this.lblSeconds.TabIndex = 11;
+            this.lblSeconds.Text = "seconds";
+            this.lblSeconds.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // SetSlowChatActionConfigView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblSeconds);
+            this.Controls.Add(this.lblMessageCooldown);
             this.Controls.Add(this.cooldown);
             this.Controls.Add(this.radioToggle);
             this.Controls.Add(this.radioOff);
@@ -140,11 +140,11 @@ namespace SuchByte.TwitchPlugin.Views
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblMessageCooldown;
         private System.Windows.Forms.NumericUpDown cooldown;
         private MacroDeck.GUI.CustomControls.TabRadioButton radioToggle;
         private MacroDeck.GUI.CustomControls.TabRadioButton radioOff;
         private MacroDeck.GUI.CustomControls.TabRadioButton radioOn;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblSeconds;
     }
 }

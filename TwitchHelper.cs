@@ -27,7 +27,6 @@ namespace SuchByte.TwitchPlugin
 
         private static TwitchAPI _api;
 
-        public static TwitchAccount TwitchAccount;
 
         public static event EventHandler LoginSuccessful;
 
@@ -36,6 +35,7 @@ namespace SuchByte.TwitchPlugin
         public static event EventHandler ConnectionStateChanged;
 
         private static string userId = "";
+        private static string username = "";
 
         private static System.Timers.Timer updateTimer;
 
@@ -50,10 +50,8 @@ namespace SuchByte.TwitchPlugin
 
         public static void Connect(TwitchAccount account)
         {
-            TwitchAccount = account;
-            ConnectionCredentials credentials = new ConnectionCredentials(TwitchAccount.TwitchUserName, TwitchAccount.TwitchAccessToken);
-            ConfigTwitchChat(credentials);
-            ConfigTwitchAPI(credentials);
+            ConfigTwitchAPI(account.TwitchAccessToken);
+            ConfigTwitchChat(account.TwitchAccessToken);
             if (updateTimer != null)
             {
                 updateTimer.Enabled = false;
@@ -61,25 +59,66 @@ namespace SuchByte.TwitchPlugin
             }
             updateTimer = new System.Timers.Timer
             {
-                Interval = 1000*30,
+                Interval = 1000*45,
                 Enabled = true
             };
             updateTimer.Elapsed += UpdateTimer_Elapsed;
         }
+
+        private static async void ConfigTwitchChat(string accesstoken)
+        {
+            try
+            {
+                var users = await _api.Helix.Users.GetUsersAsync();
+                if (users == null || users.Users == null || users.Users.FirstOrDefault() == null) return;
+                username = users.Users.FirstOrDefault().Login;
+                MacroDeckLogger.Info(PluginInstance.Main, $"Using login: {username}");
+
+                ConnectionCredentials credentials = new ConnectionCredentials(username, accesstoken);
+
+                if (_client != null && _client.IsConnected)
+                {
+                    _client.Disconnect();
+                }
+                _client = new TwitchClient();
+                _client.Initialize(credentials, username);
+
+                _client.OnLog += Client_OnLog;
+                _client.OnError += Client_OnError;
+                _client.OnJoinedChannel += Client_OnJoinedChannel;
+                _client.OnConnected += Client_OnConnected;
+                _client.OnChannelStateChanged += Client_OnChannelStateChanged;
+                _client.OnNewSubscriber += Client_OnNewSubscriber;
+
+                _client.OnUserJoined += Client_OnUserJoined;
+                _client.OnUserLeft += Client_OnUserLeft;
+
+                _client.OnIncorrectLogin += Client_OnIncorrectLogin;
+                _client.OnConnectionError += Client_OnConnectionError;
+                _client.OnDisconnected += Client_OnDisconnected;
+
+                _client.Connect();
+                MacroDeckLogger.Info(PluginInstance.Main, "Connecting Twitch client...");
+            }
+            catch (Exception ex)
+            {
+                MacroDeckLogger.Error(PluginInstance.Main, "Failed to connect Twitch client: " + ex.Message + Environment.NewLine + ex.StackTrace);
+            }
+        }
+
 
         private static void UpdateTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (_api == null) return;
             Task.Run(() => UpdateViewerCountAsync());
             Task.Run(() => UpdateFollowersAsync());
-            Task.Run(() => UpdateSubscribersAsync());
         }
 
-        private static void ConfigTwitchAPI(ConnectionCredentials credentials)
+        private static void ConfigTwitchAPI(string accessToken)
         {
             _api = new TwitchAPI();
             _api.Settings.ClientId = "m656oj5wocmg54tmjtkydhobl93ej4";
-            _api.Settings.AccessToken = TwitchAccount.TwitchAccessToken;
+            _api.Settings.AccessToken = accessToken;
             Task.Run(() => {
                 GetUserIdAsync();
                 UpdateViewerCountAsync();
@@ -122,7 +161,7 @@ namespace SuchByte.TwitchPlugin
                 var followers = await _api.Helix.Users.GetUsersFollowsAsync(toId: userId);
                 if (followers == null) return;
                 var followersCount = followers.TotalFollows;
-                VariableManager.SetValue(TwitchAccount.TwitchUserName + "_followers", followersCount, VariableType.Integer, PluginInstance.Main, true);
+                VariableManager.SetValue(username + "_followers", followersCount, VariableType.Integer, PluginInstance.Main, true);
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Followers count: {followersCount}");
             }
             catch { }
@@ -136,7 +175,7 @@ namespace SuchByte.TwitchPlugin
                 var subscribers = await _api.Helix.Subscriptions.GetBroadcasterSubscriptionsAsync(userId);
                 if (subscribers == null) return;
                 var subscribersCount = subscribers.Total;
-                VariableManager.SetValue(TwitchAccount.TwitchUserName + "_subscribers", subscribersCount, VariableType.Integer, PluginInstance.Main, true);
+                VariableManager.SetValue(username + "_subscribers", subscribersCount, VariableType.Integer, PluginInstance.Main, true);
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Subscribers count: {subscribersCount}");
             }
             catch { }
@@ -171,10 +210,10 @@ namespace SuchByte.TwitchPlugin
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Subs only: {SubscibersOnlyChat}");
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Emotes only: {EmotesOnlyChat}");
 
-                VariableManager.SetValue(TwitchAccount.TwitchUserName + "_slow_chat", SlowChat, VariableType.Bool, PluginInstance.Main, true);
-                VariableManager.SetValue(TwitchAccount.TwitchUserName + "_followers_only_chat", FollowersOnlyChat, VariableType.Bool, PluginInstance.Main, true);
-                VariableManager.SetValue(TwitchAccount.TwitchUserName + "_subs_only_chat", SubscibersOnlyChat, VariableType.Bool, PluginInstance.Main, true);
-                VariableManager.SetValue(TwitchAccount.TwitchUserName + "_emotes_only_chat", EmotesOnlyChat, VariableType.Bool, PluginInstance.Main, true);
+                VariableManager.SetValue(username + "_slow_chat", SlowChat, VariableType.Bool, PluginInstance.Main, true);
+                VariableManager.SetValue(username + "_followers_only_chat", FollowersOnlyChat, VariableType.Bool, PluginInstance.Main, true);
+                VariableManager.SetValue(username + "_subs_only_chat", SubscibersOnlyChat, VariableType.Bool, PluginInstance.Main, true);
+                VariableManager.SetValue(username + "_emotes_only_chat", EmotesOnlyChat, VariableType.Bool, PluginInstance.Main, true);
 
             }
             catch (Exception ex)
@@ -193,44 +232,17 @@ namespace SuchByte.TwitchPlugin
                 var stream = await _api.Helix.Streams.GetStreamsAsync(userIds: new List<string> { userId });
                 if (stream == null || stream.Streams == null || stream.Streams.FirstOrDefault() == null) return;
                 var viewersCount = stream.Streams.FirstOrDefault().ViewerCount;
-                VariableManager.SetValue(TwitchAccount.TwitchUserName + "_viewers", viewersCount, VariableType.Integer, PluginInstance.Main, true);
+                VariableManager.SetValue(username + "_viewers", viewersCount, VariableType.Integer, PluginInstance.Main, true);
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Viewer count: {viewersCount}");
             } catch { }
         }
 
-        private static void ConfigTwitchChat(ConnectionCredentials credentials)
+
+
+        private static void Client_OnNewSubscriber(object sender, OnNewSubscriberArgs e)
         {
-            try
-            {
-                if (_client != null && _client.IsConnected)
-                {
-                    _client.Disconnect();
-                }
-                _client = new TwitchClient();
-                _client.Initialize(credentials, TwitchAccount.TwitchUserName);
-
-                _client.OnLog += Client_OnLog;
-                _client.OnError += Client_OnError;
-                _client.OnJoinedChannel += Client_OnJoinedChannel;
-                _client.OnConnected += Client_OnConnected;
-                _client.OnChannelStateChanged += Client_OnChannelStateChanged;
-
-                _client.OnUserJoined += Client_OnUserJoined;
-                _client.OnUserLeft += Client_OnUserLeft;
-
-                _client.OnIncorrectLogin += Client_OnIncorrectLogin;
-                _client.OnConnectionError += Client_OnConnectionError;
-                _client.OnDisconnected += Client_OnDisconnected;
-
-                _client.Connect();
-                MacroDeckLogger.Info(PluginInstance.Main, "Connecting Twitch client...");
-            }
-            catch (Exception ex)
-            {
-                MacroDeckLogger.Error(PluginInstance.Main, "Failed to connect Twitch client: " + ex.Message + Environment.NewLine + ex.StackTrace);
-            }
+            Task.Run(() => UpdateSubscribersAsync());
         }
-
 
         private static void Client_OnError(object sender, TwitchLib.Communication.Events.OnErrorEventArgs e)
         {

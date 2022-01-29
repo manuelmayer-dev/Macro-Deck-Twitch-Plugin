@@ -1,5 +1,6 @@
 ﻿using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
+using SuchByte.TwitchPlugin.Language;
 using SuchByte.TwitchPlugin.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,10 @@ namespace SuchByte.TwitchPlugin.Views
         public SetFollowerChatActionConfigView(PluginAction action)
         {
             InitializeComponent();
-
+            this.radioOn.Text = PluginLanguageManager.PluginStrings.On;
+            this.radioOff.Text = PluginLanguageManager.PluginStrings.Off;
+            this.radioToggle.Text = PluginLanguageManager.PluginStrings.Toggle;
+            this.lblRequiredFollowTime.Text = PluginLanguageManager.PluginStrings.RequiredFollowTime;
             this._viewModel = new SetFollowerChatActionConfigViewModel(action);
         }
 
@@ -37,23 +41,23 @@ namespace SuchByte.TwitchPlugin.Views
                     break;
             }
 
-            this.unit.Items.Add("Minutes");
-            this.unit.Items.Add("Hours");
-            this.unit.Items.Add("Days");
+            this.unit.Items.Add(PluginLanguageManager.PluginStrings.Minutes);
+            this.unit.Items.Add(PluginLanguageManager.PluginStrings.Hours);
+            this.unit.Items.Add(PluginLanguageManager.PluginStrings.Days);
 
             if (this._viewModel.RequiredFollowTime.TotalHours < 1)
             {
                 this.requiredFollowTime.Value = (int)this._viewModel.RequiredFollowTime.TotalMinutes;
-                this.unit.Text = "Minutes";
+                this.unit.Text = PluginLanguageManager.PluginStrings.Minutes;
             }
             else if (this._viewModel.RequiredFollowTime.TotalHours < 24)
             {
                 this.requiredFollowTime.Value = (int)this._viewModel.RequiredFollowTime.TotalHours;
-                this.unit.Text = "Hours";
+                this.unit.Text = PluginLanguageManager.PluginStrings.Hours;
             } else
             {
                 this.requiredFollowTime.Value = (int)this._viewModel.RequiredFollowTime.TotalDays;
-                this.unit.Text = "Days";
+                this.unit.Text = PluginLanguageManager.PluginStrings.Days;
             }
         }
 
@@ -70,17 +74,17 @@ namespace SuchByte.TwitchPlugin.Views
                 this._viewModel.Method = Models.SetFollowerChatActionMethod.Toggle;
             }
 
-            switch (this.unit.Text)
+            if (this.unit.Text.Equals(PluginLanguageManager.PluginStrings.Minutes))
             {
-                case "Minutes":
-                    this._viewModel.RequiredFollowTime = TimeSpan.FromMinutes((double)this.requiredFollowTime.Value);
-                    break;
-                case "Hours":
-                    this._viewModel.RequiredFollowTime = TimeSpan.FromHours((double)this.requiredFollowTime.Value);
-                    break;
-                case "Days":
-                    this._viewModel.RequiredFollowTime = TimeSpan.FromDays((double)this.requiredFollowTime.Value);
-                    break;
+                this._viewModel.RequiredFollowTime = TimeSpan.FromMinutes((double)this.requiredFollowTime.Value);
+            }
+            else if (this.unit.Text.Equals(PluginLanguageManager.PluginStrings.Hours))
+            {
+                this._viewModel.RequiredFollowTime = TimeSpan.FromHours((double)this.requiredFollowTime.Value);
+            }
+            else if (this.unit.Text.Equals(PluginLanguageManager.PluginStrings.Days))
+            {
+                this._viewModel.RequiredFollowTime = TimeSpan.FromDays((double)this.requiredFollowTime.Value);
             }
 
             return this._viewModel.SaveConfig();

@@ -31,7 +31,10 @@ namespace SuchByte.TwitchPlugin.Views
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.message = new SuchByte.MacroDeck.GUI.CustomControls.RoundedTextBox();
+            this.variablesContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.btnAddVariable = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
             this.SuspendLayout();
             // 
             // message
@@ -59,10 +62,41 @@ namespace SuchByte.TwitchPlugin.Views
             this.message.TabStop = false;
             this.message.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             // 
+            // variablesContextMenu
+            // 
+            this.variablesContextMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.variablesContextMenu.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.variablesContextMenu.Name = "variablesContextMenu";
+            this.variablesContextMenu.ShowImageMargin = false;
+            this.variablesContextMenu.Size = new System.Drawing.Size(36, 4);
+            // 
+            // btnAddVariable
+            // 
+            this.btnAddVariable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddVariable.BorderRadius = 8;
+            this.btnAddVariable.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddVariable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddVariable.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnAddVariable.ForeColor = System.Drawing.Color.White;
+            this.btnAddVariable.HoverColor = System.Drawing.Color.Empty;
+            this.btnAddVariable.Icon = null;
+            this.btnAddVariable.Location = new System.Drawing.Point(621, 328);
+            this.btnAddVariable.Name = "btnAddVariable";
+            this.btnAddVariable.Progress = 0;
+            this.btnAddVariable.ProgressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(103)))), ((int)(((byte)(225)))));
+            this.btnAddVariable.Size = new System.Drawing.Size(140, 30);
+            this.btnAddVariable.TabIndex = 0;
+            this.btnAddVariable.TabStop = false;
+            this.btnAddVariable.Text = "Add variable";
+            this.btnAddVariable.UseVisualStyleBackColor = true;
+            this.btnAddVariable.UseWindowsAccentColor = true;
+            this.btnAddVariable.Click += new System.EventHandler(this.BtnAddVariable_Click);
+            // 
             // SendChatMessageActionConfigView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnAddVariable);
             this.Controls.Add(this.message);
             this.Name = "SendChatMessageActionConfigView";
             this.Load += new System.EventHandler(this.SendChatMessageActionConfigView_Load);
@@ -73,5 +107,7 @@ namespace SuchByte.TwitchPlugin.Views
         #endregion
 
         private RoundedTextBox message;
+        private System.Windows.Forms.ContextMenuStrip variablesContextMenu;
+        private ButtonPrimary btnAddVariable;
     }
 }

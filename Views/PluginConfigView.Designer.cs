@@ -34,34 +34,11 @@ namespace SuchByte.TwitchPlugin.Views
         /// </summary>
         private void InitializeComponent()
         {
-            this.username = new SuchByte.MacroDeck.GUI.CustomControls.RoundedTextBox();
             this.oAuthToken = new SuchByte.MacroDeck.GUI.CustomControls.RoundedTextBox();
             this.btnGetToken = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
             this.btnOk = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
-            this.lblUsername = new System.Windows.Forms.Label();
-            this.lblOAuthToken = new System.Windows.Forms.Label();
+            this.lblAuthToken = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // username
-            // 
-            this.username.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
-            this.username.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.username.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.username.Icon = null;
-            this.username.Location = new System.Drawing.Point(178, 42);
-            this.username.MaxCharacters = 32767;
-            this.username.Multiline = false;
-            this.username.Name = "username";
-            this.username.Padding = new System.Windows.Forms.Padding(8, 5, 8, 5);
-            this.username.PasswordChar = false;
-            this.username.PlaceHolderColor = System.Drawing.Color.Gray;
-            this.username.PlaceHolderText = "";
-            this.username.ReadOnly = false;
-            this.username.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.username.SelectionStart = 0;
-            this.username.Size = new System.Drawing.Size(293, 25);
-            this.username.TabIndex = 2;
-            this.username.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             // 
             // oAuthToken
             // 
@@ -69,7 +46,7 @@ namespace SuchByte.TwitchPlugin.Views
             this.oAuthToken.Cursor = System.Windows.Forms.Cursors.Hand;
             this.oAuthToken.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.oAuthToken.Icon = null;
-            this.oAuthToken.Location = new System.Drawing.Point(178, 73);
+            this.oAuthToken.Location = new System.Drawing.Point(176, 69);
             this.oAuthToken.MaxCharacters = 32767;
             this.oAuthToken.Multiline = false;
             this.oAuthToken.Name = "oAuthToken";
@@ -93,7 +70,7 @@ namespace SuchByte.TwitchPlugin.Views
             this.btnGetToken.ForeColor = System.Drawing.Color.White;
             this.btnGetToken.HoverColor = System.Drawing.Color.Empty;
             this.btnGetToken.Icon = null;
-            this.btnGetToken.Location = new System.Drawing.Point(477, 75);
+            this.btnGetToken.Location = new System.Drawing.Point(475, 71);
             this.btnGetToken.Name = "btnGetToken";
             this.btnGetToken.Progress = 0;
             this.btnGetToken.ProgressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(103)))), ((int)(((byte)(225)))));
@@ -101,6 +78,7 @@ namespace SuchByte.TwitchPlugin.Views
             this.btnGetToken.TabIndex = 4;
             this.btnGetToken.TabStop = false;
             this.btnGetToken.Text = "Get token";
+            this.btnGetToken.UseWindowsAccentColor = true;
             this.btnGetToken.Click += new System.EventHandler(this.BtnGetToken_Click);
             // 
             // btnOk
@@ -120,60 +98,44 @@ namespace SuchByte.TwitchPlugin.Views
             this.btnOk.TabIndex = 5;
             this.btnOk.TabStop = false;
             this.btnOk.Text = "Ok";
+            this.btnOk.UseWindowsAccentColor = true;
             this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
             // 
-            // lblUsername
+            // lblAuthToken
             // 
-            this.lblUsername.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblUsername.Location = new System.Drawing.Point(20, 42);
-            this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(152, 25);
-            this.lblUsername.TabIndex = 6;
-            this.lblUsername.Text = "Twitch user name";
-            this.lblUsername.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblOAuthToken
-            // 
-            this.lblOAuthToken.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblOAuthToken.Location = new System.Drawing.Point(20, 73);
-            this.lblOAuthToken.Name = "lblOAuthToken";
-            this.lblOAuthToken.Size = new System.Drawing.Size(152, 25);
-            this.lblOAuthToken.TabIndex = 7;
-            this.lblOAuthToken.Text = "OAuth token";
-            this.lblOAuthToken.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblAuthToken.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblAuthToken.Location = new System.Drawing.Point(18, 69);
+            this.lblAuthToken.Name = "lblAuthToken";
+            this.lblAuthToken.Size = new System.Drawing.Size(152, 25);
+            this.lblAuthToken.TabIndex = 7;
+            this.lblAuthToken.Text = "Auth token";
+            this.lblAuthToken.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PluginConfigView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(603, 198);
-            this.Controls.Add(this.lblOAuthToken);
-            this.Controls.Add(this.lblUsername);
+            this.Controls.Add(this.lblAuthToken);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnGetToken);
             this.Controls.Add(this.oAuthToken);
-            this.Controls.Add(this.username);
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "PluginConfigView";
             this.Text = "PluginConfigView";
             this.Load += new System.EventHandler(this.PluginConfigView_Load);
-            this.Controls.SetChildIndex(this.username, 0);
             this.Controls.SetChildIndex(this.oAuthToken, 0);
             this.Controls.SetChildIndex(this.btnGetToken, 0);
             this.Controls.SetChildIndex(this.btnOk, 0);
-            this.Controls.SetChildIndex(this.lblUsername, 0);
-            this.Controls.SetChildIndex(this.lblOAuthToken, 0);
+            this.Controls.SetChildIndex(this.lblAuthToken, 0);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private RoundedTextBox username;
         private RoundedTextBox oAuthToken;
         private ButtonPrimary btnGetToken;
         private ButtonPrimary btnOk;
-        private System.Windows.Forms.Label lblUsername;
-        private System.Windows.Forms.Label lblOAuthToken;
+        private System.Windows.Forms.Label lblAuthToken;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
+using SuchByte.TwitchPlugin.Language;
 using SuchByte.TwitchPlugin.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,9 @@ namespace SuchByte.TwitchPlugin.Views
         public SetEmoteChatActionConfigView(PluginAction action)
         {
             InitializeComponent();
-
+            this.radioOn.Text = PluginLanguageManager.PluginStrings.On;
+            this.radioOff.Text = PluginLanguageManager.PluginStrings.Off;
+            this.radioToggle.Text = PluginLanguageManager.PluginStrings.Toggle;
             this._viewModel = new SetEmoteChatActionConfigViewModel(action);
         }
 

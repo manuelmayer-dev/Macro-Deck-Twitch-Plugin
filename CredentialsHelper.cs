@@ -15,7 +15,6 @@ namespace SuchByte.TwitchPlugin
         {
             Dictionary<string, string> credentials = new Dictionary<string, string>
             {
-                ["user-name"] = twitchAccount.TwitchUserName,
                 ["token"] = twitchAccount.TwitchAccessToken
             };
             PluginCredentials.SetCredentials(PluginInstance.Main, credentials);
@@ -33,7 +32,6 @@ namespace SuchByte.TwitchPlugin
                 if (credentials == null) return null;
                 account = new TwitchAccount()
                 {
-                    TwitchUserName = credentials["user-name"],
                     TwitchAccessToken = credentials["token"],
                 };
             } catch (Exception ex)

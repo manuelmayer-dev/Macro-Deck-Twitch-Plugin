@@ -31,20 +31,20 @@ namespace SuchByte.TwitchPlugin.Views
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblLength = new System.Windows.Forms.Label();
             this.commercialLenght = new SuchByte.MacroDeck.GUI.CustomControls.RoundedComboBox();
             this.SuspendLayout();
             // 
-            // label1
+            // lblLength
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(247, 192);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(121, 26);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Length:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblLength.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblLength.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblLength.Location = new System.Drawing.Point(247, 192);
+            this.lblLength.Name = "lblLength";
+            this.lblLength.Size = new System.Drawing.Size(121, 26);
+            this.lblLength.TabIndex = 0;
+            this.lblLength.Text = "Length:";
+            this.lblLength.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // commercialLenght
             // 
@@ -67,7 +67,7 @@ namespace SuchByte.TwitchPlugin.Views
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.commercialLenght);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblLength);
             this.Name = "PlayAdActionConfigView";
             this.Load += new System.EventHandler(this.PlayAdActionConfigView_Load);
             this.ResumeLayout(false);
@@ -76,7 +76,7 @@ namespace SuchByte.TwitchPlugin.Views
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblLength;
         private RoundedComboBox commercialLenght;
     }
 }

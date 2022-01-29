@@ -71,8 +71,6 @@ namespace SuchByte.TwitchPlugin
             TwitchAccount twitchAccount = CredentialsHelper.GetTwitchAccount();
             if (twitchAccount != null)
             {
-                MacroDeckLogger.Trace(this, twitchAccount.TwitchUserName);
-                MacroDeckLogger.Trace(this, twitchAccount.TwitchAccessToken);
                 TwitchHelper.Connect(twitchAccount);
             }
         }

@@ -6,7 +6,6 @@ namespace SuchByte.TwitchPlugin.Models
 {
     public class TwitchAccount
     {
-        public string TwitchUserName { get; set; }
         public string TwitchAccessToken { get; set; }
 
     }

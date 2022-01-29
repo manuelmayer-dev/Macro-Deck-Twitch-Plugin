@@ -2,6 +2,7 @@
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
+using SuchByte.TwitchPlugin.Language;
 using SuchByte.TwitchPlugin.Models;
 using SuchByte.TwitchPlugin.Views;
 using System;
@@ -13,9 +14,9 @@ namespace SuchByte.TwitchPlugin.Actions
 {
     public class PlayAdAction : PluginAction
     {
-        public override string Name => "Play commercial";
+        public override string Name => PluginLanguageManager.PluginStrings.ActionPlayAd;
 
-        public override string Description => "Plays a commercial\r\nA Twitch Partner or Affiliate account is required";
+        public override string Description => PluginLanguageManager.PluginStrings.ActionPlayAdDescription;
 
         public override bool CanConfigure => true;
 

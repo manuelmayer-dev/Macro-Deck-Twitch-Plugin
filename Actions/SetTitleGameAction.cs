@@ -2,6 +2,7 @@
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
+using SuchByte.TwitchPlugin.Language;
 using SuchByte.TwitchPlugin.Models;
 using SuchByte.TwitchPlugin.Views;
 using System;
@@ -12,9 +13,9 @@ namespace SuchByte.TwitchPlugin.Actions
 {
     public class SetTitleGameAction : PluginAction
     {
-        public override string Name => "Set stream title/game";
+        public override string Name => PluginLanguageManager.PluginStrings.ActionSetStreamTitleGame;
 
-        public override string Description => "Sets the stream title and the game";
+        public override string Description => PluginLanguageManager.PluginStrings.ActionSetStreamTitleGameDescription;
 
         public override bool CanConfigure => true;
 
@@ -23,6 +24,17 @@ namespace SuchByte.TwitchPlugin.Actions
             var configModel = SetTitleGameActionConfigModel.Deserialize(this.Configuration);
             if (configModel != null)
             {
+                foreach (MacroDeck.Variables.Variable variable in MacroDeck.Variables.VariableManager.Variables)
+                {
+                    if (configModel.StreamTitle.ToLower().Contains("{" + variable.Name.ToLower() + "}"))
+                    {
+                        configModel.StreamTitle = configModel.StreamTitle.Replace("{" + variable.Name + "}", variable.Value.ToString(), StringComparison.OrdinalIgnoreCase);
+                    }
+                    if (configModel.Game.ToLower().Contains("{" + variable.Name.ToLower() + "}"))
+                    {
+                        configModel.Game = configModel.Game.Replace("{" + variable.Name + "}", variable.Value.ToString(), StringComparison.OrdinalIgnoreCase);
+                    }
+                }
                 TwitchHelper.SetTitleGame(configModel.StreamTitle, configModel.Game);
             }
         }
