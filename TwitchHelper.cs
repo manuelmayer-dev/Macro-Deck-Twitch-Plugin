@@ -89,6 +89,7 @@ namespace SuchByte.TwitchPlugin
                 _client.OnConnected += Client_OnConnected;
                 _client.OnChannelStateChanged += Client_OnChannelStateChanged;
                 _client.OnNewSubscriber += Client_OnNewSubscriber;
+                _client.OnChatCommandReceived += Client_OnChatCommandReceived;
 
                 _client.OnUserJoined += Client_OnUserJoined;
                 _client.OnUserLeft += Client_OnUserLeft;
@@ -106,6 +107,15 @@ namespace SuchByte.TwitchPlugin
             }
         }
 
+        private static void Client_OnChatCommandReceived(object sender, OnChatCommandReceivedArgs e)
+        {
+            if (e.Command.ChatMessage.IsModerator)
+            {
+                VariableManager.SetValue(username + "_command", "", VariableType.String, PluginInstance.Main, true); // Clear variable before use to enable re-fire the same command twice
+                VariableManager.SetValue(username + "_command", e.Command.CommandText, VariableType.String, PluginInstance.Main, true);
+                MacroDeckLogger.Trace(PluginInstance.Main, "Command: [" + e.Command.CommandText + "] " + e.Command.ChatMessage.Username + " (Mod)");
+            }
+        }
 
         private static void UpdateTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
