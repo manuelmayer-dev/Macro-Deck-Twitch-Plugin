@@ -112,7 +112,7 @@ namespace SuchByte.TwitchPlugin
             if (e.Command.ChatMessage.IsModerator)
             {
                 VariableManager.SetValue(username + "_command", "", VariableType.String, PluginInstance.Main, true); // Clear variable before use to enable re-fire the same command twice
-                VariableManager.SetValue(username + "_command", e.Command.CommandText, VariableType.String, PluginInstance.Main, true);
+                VariableManager.SetValue(username + "_command", e.Command.CommandText, VariableType.String, PluginInstance.Main, false);
                 MacroDeckLogger.Trace(PluginInstance.Main, "Command: [" + e.Command.CommandText + "] " + e.Command.ChatMessage.Username + " (Mod)");
             }
         }
