@@ -109,7 +109,7 @@ namespace SuchByte.TwitchPlugin
 
         private static void Client_OnChatCommandReceived(object sender, OnChatCommandReceivedArgs e)
         {
-            if (e.Command.ChatMessage.IsModerator)
+            if (e.Command.ChatMessage.IsModerator || e.Command.ChatMessage.IsBroadcaster)
             {
                 VariableManager.SetValue(username + "_command", "", VariableType.String, PluginInstance.Main, true); // Clear variable before use to enable re-fire the same command twice
                 VariableManager.SetValue(username + "_command", e.Command.CommandText, VariableType.String, PluginInstance.Main, false);
