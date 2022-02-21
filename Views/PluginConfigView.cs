@@ -1,5 +1,6 @@
 ﻿using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Language;
+using SuchByte.MacroDeck.Plugins;
 using SuchByte.TwitchPlugin.Language;
 using SuchByte.TwitchPlugin.Models;
 using System;
@@ -27,6 +28,9 @@ namespace SuchByte.TwitchPlugin.Views
         {
             TwitchHelper.LoginFailed += TwitchHelper_LoginFailed;
             TwitchHelper.LoginSuccessful += TwitchHelper_LoginSuccessful;
+
+            this.commandPrefix.Text = string.IsNullOrEmpty(PluginConfiguration.GetValue(PluginInstance.Main, "commandPrefix")) ? "!" : PluginConfiguration.GetValue(PluginInstance.Main, "commandPrefix");
+            this.commandsList.Text = PluginConfiguration.GetValue(PluginInstance.Main, "commandsList");
 
             TwitchAccount twitchAccount = CredentialsHelper.GetTwitchAccount();
             if (twitchAccount != null)
@@ -71,6 +75,19 @@ namespace SuchByte.TwitchPlugin.Views
                 }
                 return;
             }
+            if (string.IsNullOrEmpty(this.commandPrefix.Text))
+            {
+                using (var msgBox = new MacroDeck.GUI.CustomControls.MessageBox())
+                {
+                    msgBox.ShowDialog(LanguageManager.Strings.Error, PluginLanguageManager.PluginStrings.PrefixCannotBeEmpty, MessageBoxButtons.OK);
+                }
+                return;
+            }
+            else
+            {
+                PluginConfiguration.SetValue(PluginInstance.Main, "commandPrefix", this.commandPrefix.Text);
+            }
+            PluginConfiguration.SetValue(PluginInstance.Main, "commandsList", this.commandsList.Text);
 
             TwitchHelper.Connect(new TwitchAccount() { TwitchAccessToken = this.oAuthToken.Text });
         }

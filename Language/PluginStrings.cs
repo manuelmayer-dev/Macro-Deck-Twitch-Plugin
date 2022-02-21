@@ -35,6 +35,7 @@ namespace SuchByte.TwitchPlugin.Language
         public string LoginSuccessful = "Login successful";
         public string LoginFailed = "Login failed! Please make sure the auth token is valid";
         public string TokenCannotBeEmpty = "Token cannot be empty";
+        public string PrefixCannotBeEmpty = "Command prefix cannot be empty";
         public string AddVariable = "Add variable";
         public string On = "On";
         public string Off = "Off";

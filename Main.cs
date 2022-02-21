@@ -1,7 +1,12 @@
-﻿using SuchByte.MacroDeck.GUI;
+﻿using SuchByte.MacroDeck.ActionButton;
+using SuchByte.MacroDeck.Events;
+using SuchByte.MacroDeck.Folders;
+using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
+using SuchByte.MacroDeck.Profiles;
+using SuchByte.MacroDeck.Variables;
 using SuchByte.TwitchPlugin.Actions;
 using SuchByte.TwitchPlugin.Language;
 using SuchByte.TwitchPlugin.Models;
@@ -29,6 +34,7 @@ namespace SuchByte.TwitchPlugin
         public override Image Icon => Properties.Resources.Twitch_Plugin;
 
         public override string Description => "Control Twitch using Macro Deck 2";
+        private ChatCommandEvent chatCommandEvent = new ChatCommandEvent();
 
         public Main()
         {
@@ -54,6 +60,7 @@ namespace SuchByte.TwitchPlugin
                 new StreamMarkerAction(),
 
             };
+            EventManager.RegisterEvent(this.chatCommandEvent);
 
             MacroDeck.MacroDeck.OnMainWindowLoad += MacroDeck_OnMainWindowLoad;
             TwitchHelper.ConnectionStateChanged += TwitchHelper_ConnectionStateChanged;
@@ -128,6 +135,57 @@ namespace SuchByte.TwitchPlugin
             using (var pluginConfig = new PluginConfigView())
             {
                 pluginConfig.ShowDialog();
+            }
+        }
+
+        public void CommandIssued(object sender, EventArgs e)
+        {
+            this.chatCommandEvent.Trigger(sender);
+        }
+
+        private class ChatCommandEvent : IMacroDeckEvent
+        {
+            public string Name => "Chat Command";
+
+            public EventHandler<MacroDeckEventArgs> OnEvent { get; set; }
+            public List<string> ParameterSuggestions
+            {
+                get
+                {
+                    List<string> commands = new List<string>();
+                    var variable = PluginConfiguration.GetValue(PluginInstance.Main, "commandsList");
+                    if (!string.IsNullOrWhiteSpace(variable))
+                        commands.AddRange(variable.Split(';'));
+                    return commands;
+                }
+                set { }
+            }
+
+            public void Trigger(object sender)
+            {
+                if (this.OnEvent != null)
+                {
+                    try
+                    {
+                        foreach (MacroDeckProfile macroDeckProfile in ProfileManager.Profiles)
+                        {
+                            foreach (MacroDeckFolder folder in macroDeckProfile.Folders)
+                            {
+                                if (folder.ActionButtons == null) continue;
+                                foreach (ActionButton actionButton in folder.ActionButtons.FindAll(actionButton => actionButton.EventListeners != null && actionButton.EventListeners.Find(x => x.EventToListen != null && x.EventToListen.Equals(this.Name)) != null))
+                                {
+                                    MacroDeckEventArgs macroDeckEventArgs = new MacroDeckEventArgs
+                                    {
+                                        ActionButton = actionButton,
+                                        Parameter = (string)sender,
+                                    };
+                                    this.OnEvent(this, macroDeckEventArgs);
+                                }
+                            }
+                        }
+                    }
+                    catch { }
+                }
             }
         }
     }

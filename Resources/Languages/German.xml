@@ -29,6 +29,7 @@ Funktioniert nur während du live bist</ActionStreamMarkerDescription>
   <LoginSuccessful>Login erfolgreich</LoginSuccessful>
   <LoginFailed>Login fehlgeschlagen! Bitte sicherstellen dass der Token gültig ist</LoginFailed>
   <TokenCannotBeEmpty>Der Token darf nicht leer sein</TokenCannotBeEmpty>
+  <PrefixCannotBeEmpty>Der Command Prefix darf nicht leer sein</PrefixCannotBeEmpty>
   <AddVariable>Variable hinzufügen</AddVariable>
   <On>Ein</On>
   <Off>Aus</Off>

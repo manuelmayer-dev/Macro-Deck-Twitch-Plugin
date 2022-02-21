@@ -29,6 +29,7 @@ Only works while you're live</ActionStreamMarkerDescription>
   <LoginSuccessful>Login successful</LoginSuccessful>
   <LoginFailed>Login failed! Please make sure the auth token is valid</LoginFailed>
   <TokenCannotBeEmpty>Token cannot be empty</TokenCannotBeEmpty>
+  <PrefixCannotBeEmpty>Command prefix cannot be empty</PrefixCannotBeEmpty>
   <AddVariable>Add variable</AddVariable>
   <On>On</On>
   <Off>Off</Off>
