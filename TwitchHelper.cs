@@ -1,4 +1,5 @@
 ﻿using SuchByte.MacroDeck.Logging;
+using SuchByte.MacroDeck.Plugins;
 using SuchByte.MacroDeck.Variables;
 using SuchByte.TwitchPlugin.Models;
 using System;
@@ -69,6 +70,7 @@ namespace SuchByte.TwitchPlugin
         {
             try
             {
+                char prefix = string.IsNullOrEmpty(PluginConfiguration.GetValue(PluginInstance.Main, "commandPrefix")) ? '!' : PluginConfiguration.GetValue(PluginInstance.Main, "commandPrefix")[0];
                 var users = await _api.Helix.Users.GetUsersAsync();
                 if (users == null || users.Users == null || users.Users.FirstOrDefault() == null) return;
                 username = users.Users.FirstOrDefault().Login;
@@ -81,7 +83,7 @@ namespace SuchByte.TwitchPlugin
                     _client.Disconnect();
                 }
                 _client = new TwitchClient();
-                _client.Initialize(credentials, username);
+                _client.Initialize(credentials, username, prefix, prefix);
 
                 _client.OnLog += Client_OnLog;
                 _client.OnError += Client_OnError;
@@ -89,6 +91,7 @@ namespace SuchByte.TwitchPlugin
                 _client.OnConnected += Client_OnConnected;
                 _client.OnChannelStateChanged += Client_OnChannelStateChanged;
                 _client.OnNewSubscriber += Client_OnNewSubscriber;
+                _client.OnChatCommandReceived += Client_OnChatCommandReceived;
 
                 _client.OnUserJoined += Client_OnUserJoined;
                 _client.OnUserLeft += Client_OnUserLeft;
@@ -106,6 +109,14 @@ namespace SuchByte.TwitchPlugin
             }
         }
 
+        private static void Client_OnChatCommandReceived(object sender, OnChatCommandReceivedArgs e)
+        {
+            if (e.Command.ChatMessage.IsModerator || e.Command.ChatMessage.IsBroadcaster)
+            {
+                MacroDeckLogger.Trace(PluginInstance.Main, "Command: [" + e.Command.CommandText + "] " + e.Command.ChatMessage.Username + " (Mod)");
+                PluginInstance.Main.CommandIssued(e.Command.CommandText, e);
+            }
+        }
 
         private static void UpdateTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {

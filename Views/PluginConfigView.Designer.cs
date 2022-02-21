@@ -38,6 +38,10 @@ namespace SuchByte.TwitchPlugin.Views
             this.btnGetToken = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
             this.btnOk = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
             this.lblAuthToken = new System.Windows.Forms.Label();
+            this.lblCommandPrefix = new System.Windows.Forms.Label();
+            this.commandPrefix = new SuchByte.MacroDeck.GUI.CustomControls.RoundedTextBox();
+            this.commandsList = new SuchByte.MacroDeck.GUI.CustomControls.RoundedTextBox();
+            this.lblCommandsList = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // oAuthToken
@@ -111,11 +115,77 @@ namespace SuchByte.TwitchPlugin.Views
             this.lblAuthToken.Text = "Auth token";
             this.lblAuthToken.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lblCommandPrefix
+            // 
+            this.lblCommandPrefix.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblCommandPrefix.Location = new System.Drawing.Point(18, 100);
+            this.lblCommandPrefix.Name = "lblCommandPrefix";
+            this.lblCommandPrefix.Size = new System.Drawing.Size(152, 25);
+            this.lblCommandPrefix.TabIndex = 8;
+            this.lblCommandPrefix.Text = "Command prefix";
+            this.lblCommandPrefix.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // commandPrefix
+            // 
+            this.commandPrefix.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
+            this.commandPrefix.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.commandPrefix.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.commandPrefix.Icon = null;
+            this.commandPrefix.Location = new System.Drawing.Point(176, 100);
+            this.commandPrefix.MaxCharacters = 1;
+            this.commandPrefix.Multiline = false;
+            this.commandPrefix.Name = "commandPrefix";
+            this.commandPrefix.Padding = new System.Windows.Forms.Padding(8, 5, 8, 5);
+            this.commandPrefix.PasswordChar = false;
+            this.commandPrefix.PlaceHolderColor = System.Drawing.Color.Gray;
+            this.commandPrefix.PlaceHolderText = "";
+            this.commandPrefix.ReadOnly = false;
+            this.commandPrefix.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.commandPrefix.SelectionStart = 0;
+            this.commandPrefix.Size = new System.Drawing.Size(293, 25);
+            this.commandPrefix.TabIndex = 9;
+            this.commandPrefix.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            // 
+            // commandsList
+            // 
+            this.commandsList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
+            this.commandsList.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.commandsList.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.commandsList.Icon = null;
+            this.commandsList.Location = new System.Drawing.Point(176, 131);
+            this.commandsList.MaxCharacters = 32767;
+            this.commandsList.Multiline = false;
+            this.commandsList.Name = "commandsList";
+            this.commandsList.Padding = new System.Windows.Forms.Padding(8, 5, 8, 5);
+            this.commandsList.PasswordChar = false;
+            this.commandsList.PlaceHolderColor = System.Drawing.Color.Gray;
+            this.commandsList.PlaceHolderText = "";
+            this.commandsList.ReadOnly = false;
+            this.commandsList.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.commandsList.SelectionStart = 0;
+            this.commandsList.Size = new System.Drawing.Size(293, 25);
+            this.commandsList.TabIndex = 11;
+            this.commandsList.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            // 
+            // lblCommandsList
+            // 
+            this.lblCommandsList.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblCommandsList.Location = new System.Drawing.Point(18, 131);
+            this.lblCommandsList.Name = "lblCommandsList";
+            this.lblCommandsList.Size = new System.Drawing.Size(152, 25);
+            this.lblCommandsList.TabIndex = 10;
+            this.lblCommandsList.Text = "Command list";
+            this.lblCommandsList.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // PluginConfigView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(603, 198);
+            this.Controls.Add(this.commandsList);
+            this.Controls.Add(this.lblCommandsList);
+            this.Controls.Add(this.commandPrefix);
+            this.Controls.Add(this.lblCommandPrefix);
             this.Controls.Add(this.lblAuthToken);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnGetToken);
@@ -128,6 +198,10 @@ namespace SuchByte.TwitchPlugin.Views
             this.Controls.SetChildIndex(this.btnGetToken, 0);
             this.Controls.SetChildIndex(this.btnOk, 0);
             this.Controls.SetChildIndex(this.lblAuthToken, 0);
+            this.Controls.SetChildIndex(this.lblCommandPrefix, 0);
+            this.Controls.SetChildIndex(this.commandPrefix, 0);
+            this.Controls.SetChildIndex(this.lblCommandsList, 0);
+            this.Controls.SetChildIndex(this.commandsList, 0);
             this.ResumeLayout(false);
 
         }
@@ -137,5 +211,9 @@ namespace SuchByte.TwitchPlugin.Views
         private ButtonPrimary btnGetToken;
         private ButtonPrimary btnOk;
         private System.Windows.Forms.Label lblAuthToken;
+        private System.Windows.Forms.Label lblCommandPrefix;
+        private RoundedTextBox commandPrefix;
+        private RoundedTextBox commandsList;
+        private System.Windows.Forms.Label lblCommandsList;
     }
 }
