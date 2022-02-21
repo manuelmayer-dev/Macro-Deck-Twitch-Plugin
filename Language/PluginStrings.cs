@@ -48,6 +48,9 @@ namespace SuchByte.TwitchPlugin.Language
         public string Seconds = "seconds";
         public string StreamTitle = "Stream title";
         public string Game = "Game";
+        public string EventName = "Chat Command";
+        public string CommandPrefix = "Command prefix";
+        public string CommandsList = "Commands list";
 
     }
 }

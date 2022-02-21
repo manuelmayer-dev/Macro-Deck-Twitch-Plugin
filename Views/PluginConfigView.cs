@@ -20,6 +20,8 @@ namespace SuchByte.TwitchPlugin.Views
         {
             InitializeComponent();
             this.lblAuthToken.Text = PluginLanguageManager.PluginStrings.AuthToken;
+            this.lblCommandPrefix.Text = PluginLanguageManager.PluginStrings.CommandPrefix;
+            this.lblCommandsList.Text = PluginLanguageManager.PluginStrings.CommandsList;
             this.btnGetToken.Text = PluginLanguageManager.PluginStrings.GetToken;
             this.btnOk.Text = LanguageManager.Strings.Ok;
         }

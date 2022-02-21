@@ -42,4 +42,7 @@ Funktioniert nur während du live bist</ActionStreamMarkerDescription>
   <Seconds>Sekunden</Seconds>
   <StreamTitle>Stream Titel</StreamTitle>
   <Game>Spiel</Game>
+  <EventName>Chat Command</EventName>
+  <CommandPrefix>Command-Prefix</CommandPrefix>
+  <CommandsList>Commands-Liste</CommandsList>
 </PluginStrings>

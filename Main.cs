@@ -145,7 +145,7 @@ namespace SuchByte.TwitchPlugin
 
         private class ChatCommandEvent : IMacroDeckEvent
         {
-            public string Name => "Chat Command";
+            public string Name => PluginLanguageManager.PluginStrings.EventName;
 
             public EventHandler<MacroDeckEventArgs> OnEvent { get; set; }
             public List<string> ParameterSuggestions
