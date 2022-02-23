@@ -144,18 +144,17 @@ namespace SuchByte.TwitchPlugin
         {
             try
             {
-                string gameId = "";
-                var games = await _api.Helix.Games.GetGamesAsync(gameNames: new List<string> { game });
-                if (games != null && games.Games != null && games.Games.FirstOrDefault() != null)
+                TwitchLib.Api.Helix.Models.Channels.ModifyChannelInformation.ModifyChannelInformationRequest modifyChannelInformationRequest = new TwitchLib.Api.Helix.Models.Channels.ModifyChannelInformation.ModifyChannelInformationRequest();
+                if (!string.IsNullOrEmpty(game))
                 {
-                    gameId = games.Games.FirstOrDefault().Id;
+                    var games = await _api.Helix.Games.GetGamesAsync(gameNames: new List<string> { game });
+                    if (games != null && games.Games != null && games.Games.FirstOrDefault() != null)
+                    {
+                        modifyChannelInformationRequest.GameId = games.Games.FirstOrDefault().Id;
+                    }
                 }
+                if (string.IsNullOrEmpty(title)) modifyChannelInformationRequest.Title = title;
 
-                TwitchLib.Api.Helix.Models.Channels.ModifyChannelInformation.ModifyChannelInformationRequest modifyChannelInformationRequest = new TwitchLib.Api.Helix.Models.Channels.ModifyChannelInformation.ModifyChannelInformationRequest()
-                {
-                    Title = title,
-                    GameId = gameId
-                };
                 await _api.Helix.Channels.ModifyChannelInformationAsync(userId, modifyChannelInformationRequest);
             }
             catch (Exception ex)
@@ -422,7 +421,14 @@ namespace SuchByte.TwitchPlugin
         {
             if (_api == null) return;
             Task.Run(() => SetTitleGameAsync(title, game));
-            MacroDeckLogger.Info(PluginInstance.Main, $"Set title to {title} and game to {game}");
+            if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(game))
+                MacroDeckLogger.Info(PluginInstance.Main, $"Set title to {title} and game to {game}");
+            else if (!string.IsNullOrEmpty(title))
+                MacroDeckLogger.Info(PluginInstance.Main, $"Set title to {title}");
+            else if (!string.IsNullOrEmpty(game))
+                MacroDeckLogger.Info(PluginInstance.Main, $"Set game to {game}");
+            else
+                MacroDeckLogger.Info(PluginInstance.Main, $"Set nothing");
         }
 
         public static void Marker()
