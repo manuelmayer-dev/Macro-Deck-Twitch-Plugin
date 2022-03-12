@@ -1,0 +1,10 @@
+﻿{
+  "type": "Plugin",
+  "name": "Twitch Plugin",
+  "author": "Macro Deck",
+  "repository": "https://github.com/SuchByte/Macro-Deck-Twitch-Plugin",
+  "packageId": "SuchByte.TwitchPlugin",
+  "version": "1.0.0",
+  "target-plugin-api-version": 32,
+  "dll": "Twitch Plugin.dll"
+}
