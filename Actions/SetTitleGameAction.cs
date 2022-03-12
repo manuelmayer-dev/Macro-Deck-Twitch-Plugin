@@ -35,7 +35,7 @@ namespace SuchByte.TwitchPlugin.Actions
                         configModel.Game = configModel.Game.Replace("{" + variable.Name + "}", variable.Value.ToString(), StringComparison.OrdinalIgnoreCase);
                     }
                 }
-                TwitchHelper.SetTitleGame(configModel.StreamTitle, configModel.Game);
+                TwitchHelper.SetTitleGame(configModel.UseStreamTitle ? configModel.StreamTitle : null, configModel.UseGame ? configModel.Game : null);
             }
         }
 

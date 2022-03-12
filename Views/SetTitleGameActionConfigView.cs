@@ -19,29 +19,38 @@ namespace SuchByte.TwitchPlugin.Views
         public SetTitleGameActionConfigView(PluginAction action)
         {
             InitializeComponent();
-            this.lblStreamTitle.Text = PluginLanguageManager.PluginStrings.StreamTitle;
-            this.lblGame.Text = PluginLanguageManager.PluginStrings.Game;
+            this.cbxStreamTitle.Text = PluginLanguageManager.PluginStrings.StreamTitle;
+            this.cbxGame.Text = PluginLanguageManager.PluginStrings.Game;
             this._viewModel = new SetTitleGameActionConfigViewModel(action);
         }
 
         private void SetTitleGameActionConfigView_Load(object sender, EventArgs e)
         {
             this.streamTitle.Text = this._viewModel.StreamTitle;
+            this.cbxStreamTitle.Checked = this._viewModel.UseStreamTitle;
             this.game.Text = this._viewModel.Game;
+            this.cbxGame.Checked = this._viewModel.UseGame;
         }
 
         public override bool OnActionSave()
         {
-            if (string.IsNullOrWhiteSpace(this.streamTitle.Text))
+            if (this.cbxStreamTitle.Checked && string.IsNullOrWhiteSpace(this.streamTitle.Text))
             {
                 return false;
             }
-            if (string.IsNullOrWhiteSpace(this.game.Text))
+            if (this.cbxGame.Checked && string.IsNullOrWhiteSpace(this.game.Text))
             {
                 return false;
             }
+            if (!this.cbxStreamTitle.Checked && !cbxGame.Checked)
+            {
+                return false;
+            }
+
             this._viewModel.StreamTitle = this.streamTitle.Text;
+            this._viewModel.UseStreamTitle = this.cbxStreamTitle.Checked;
             this._viewModel.Game = this.game.Text;
+            this._viewModel.UseGame = this.cbxGame.Checked;
             return this._viewModel.SaveConfig();
         }
 
@@ -90,6 +99,16 @@ namespace SuchByte.TwitchPlugin.Views
             var selectionIndex = this.game.SelectionStart;
             this.game.Text = this.game.Text.Insert(selectionIndex, "{" + item.Text + "}");
             this.game.SelectionStart = selectionIndex + ("{" + item.Text + "}").Length;
+        }
+
+        private void CbxStreamTitle_CheckedChanged(object sender, EventArgs e)
+        {
+            streamTitle.Enabled = cbxStreamTitle.Checked;
+        }
+
+        private void CbxGame_CheckedChanged(object sender, EventArgs e)
+        {
+            game.Enabled = cbxGame.Checked;
         }
     }
 }

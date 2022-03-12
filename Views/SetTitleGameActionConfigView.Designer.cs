@@ -30,25 +30,14 @@ namespace SuchByte.TwitchPlugin.Views
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.lblStreamTitle = new System.Windows.Forms.Label();
             this.streamTitle = new SuchByte.MacroDeck.GUI.CustomControls.RoundedTextBox();
             this.game = new SuchByte.MacroDeck.GUI.CustomControls.RoundedTextBox();
-            this.lblGame = new System.Windows.Forms.Label();
             this.btnAddVariableTitle = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
             this.btnAddVariableGame = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
             this.variablesContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cbxStreamTitle = new System.Windows.Forms.CheckBox();
+            this.cbxGame = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
-            // 
-            // lblStreamTitle
-            // 
-            this.lblStreamTitle.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lblStreamTitle.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblStreamTitle.Location = new System.Drawing.Point(111, 184);
-            this.lblStreamTitle.Name = "lblStreamTitle";
-            this.lblStreamTitle.Size = new System.Drawing.Size(143, 25);
-            this.lblStreamTitle.TabIndex = 0;
-            this.lblStreamTitle.Text = "Stream title";
-            this.lblStreamTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // streamTitle
             // 
@@ -93,17 +82,6 @@ namespace SuchByte.TwitchPlugin.Views
             this.game.Size = new System.Drawing.Size(459, 25);
             this.game.TabIndex = 5;
             this.game.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
-            // 
-            // lblGame
-            // 
-            this.lblGame.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lblGame.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblGame.Location = new System.Drawing.Point(111, 215);
-            this.lblGame.Name = "lblGame";
-            this.lblGame.Size = new System.Drawing.Size(143, 25);
-            this.lblGame.TabIndex = 4;
-            this.lblGame.Text = "Game";
-            this.lblGame.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnAddVariableTitle
             // 
@@ -153,16 +131,44 @@ namespace SuchByte.TwitchPlugin.Views
             this.variablesContextMenu.ShowImageMargin = false;
             this.variablesContextMenu.Size = new System.Drawing.Size(156, 26);
             // 
+            // cbxStreamTitle
+            // 
+            this.cbxStreamTitle.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cbxStreamTitle.Checked = true;
+            this.cbxStreamTitle.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxStreamTitle.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.cbxStreamTitle.Location = new System.Drawing.Point(111, 184);
+            this.cbxStreamTitle.Name = "cbxStreamTitle";
+            this.cbxStreamTitle.Size = new System.Drawing.Size(143, 25);
+            this.cbxStreamTitle.TabIndex = 0;
+            this.cbxStreamTitle.Text = "Stream title";
+            this.cbxStreamTitle.UseVisualStyleBackColor = true;
+            this.cbxStreamTitle.CheckedChanged += new System.EventHandler(this.CbxStreamTitle_CheckedChanged);
+            // 
+            // cbxGame
+            // 
+            this.cbxGame.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cbxGame.Checked = true;
+            this.cbxGame.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxGame.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.cbxGame.Location = new System.Drawing.Point(111, 215);
+            this.cbxGame.Name = "cbxGame";
+            this.cbxGame.Size = new System.Drawing.Size(143, 25);
+            this.cbxGame.TabIndex = 8;
+            this.cbxGame.Text = "Game";
+            this.cbxGame.UseVisualStyleBackColor = true;
+            this.cbxGame.CheckedChanged += new System.EventHandler(this.CbxGame_CheckedChanged);
+            // 
             // SetTitleGameActionConfigView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.cbxGame);
+            this.Controls.Add(this.cbxStreamTitle);
             this.Controls.Add(this.btnAddVariableGame);
             this.Controls.Add(this.btnAddVariableTitle);
             this.Controls.Add(this.game);
-            this.Controls.Add(this.lblGame);
             this.Controls.Add(this.streamTitle);
-            this.Controls.Add(this.lblStreamTitle);
             this.Name = "SetTitleGameActionConfigView";
             this.Load += new System.EventHandler(this.SetTitleGameActionConfigView_Load);
             this.ResumeLayout(false);
@@ -171,12 +177,12 @@ namespace SuchByte.TwitchPlugin.Views
 
         #endregion
 
-        private System.Windows.Forms.Label lblStreamTitle;
         private MacroDeck.GUI.CustomControls.RoundedTextBox streamTitle;
         private MacroDeck.GUI.CustomControls.RoundedTextBox game;
-        private System.Windows.Forms.Label lblGame;
         private MacroDeck.GUI.CustomControls.ButtonPrimary btnAddVariableTitle;
         private MacroDeck.GUI.CustomControls.ButtonPrimary btnAddVariableGame;
         private System.Windows.Forms.ContextMenuStrip variablesContextMenu;
+        private System.Windows.Forms.CheckBox cbxStreamTitle;
+        private System.Windows.Forms.CheckBox cbxGame;
     }
 }

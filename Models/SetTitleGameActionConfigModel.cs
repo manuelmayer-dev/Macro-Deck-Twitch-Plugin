@@ -8,7 +8,9 @@ namespace SuchByte.TwitchPlugin.Models
     public class SetTitleGameActionConfigModel : ISerializableConfiguration
     {
         public string StreamTitle { get; set; } = "";
+        public bool UseStreamTitle { get; set; } = true;
         public string Game { get; set; } = "";
+        public bool UseGame { get; set; } = true;
 
         public string Serialize()
         {
