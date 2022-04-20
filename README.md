@@ -12,6 +12,7 @@ Control Twitch using Macro Deck 2
 | Slow chat | Enables/disables the slow chat. |
 | Subscribers only chat | Enables/disables the subscribers only chat. |
 | Stream marker | Places a stream marker. Only works while you're live! |
+| Create Clip | Creates a clip from recent broadcast video. Only works while you're live! |
 
 ## Variables
 | Variable | Description | Type |
