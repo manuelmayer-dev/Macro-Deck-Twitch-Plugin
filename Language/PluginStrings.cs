@@ -29,6 +29,8 @@ namespace SuchByte.TwitchPlugin.Language
         public string ActionSetStreamTitleGameDescription = "Sets the stream title and the game";
         public string ActionStreamMarker = "Stream marker";
         public string ActionStreamMarkerDescription = "Places a stream marker\r\nOnly works while you're live";
+        public string ActionMakeClip = "Make clip";
+        public string ActionMakeClipDescription = "Creates a clip from recent broadcast video\r\nOnly works while you're live";
         public string GeneralLength = "Length";
         public string AuthToken = "Auth token";
         public string GetToken = "Get token";

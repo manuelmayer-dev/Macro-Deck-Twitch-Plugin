@@ -58,7 +58,7 @@ namespace SuchByte.TwitchPlugin
                 new SetEmoteChatAction(),
                 new SetSubscriberChatAction(),
                 new StreamMarkerAction(),
-
+                new MakeClipAction()
             };
             EventManager.RegisterEvent(this.chatCommandEvent);
 
