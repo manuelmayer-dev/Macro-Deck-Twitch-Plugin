@@ -1,4 +1,5 @@
-﻿using SuchByte.MacroDeck.Logging;
+﻿using Newtonsoft.Json;
+using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
 using SuchByte.MacroDeck.Variables;
 using SuchByte.TwitchPlugin.Models;
@@ -436,6 +437,17 @@ namespace SuchByte.TwitchPlugin
             if (_client == null || !_client.IsConnected || _channel == null) return;
             TwitchLib.Client.Extensions.MarkerExt.Marker(_client, _channel);
             MacroDeckLogger.Info(PluginInstance.Main, $"Placed stream marker");
+        }
+
+        public static void MakeClip()
+        {
+            if (_api == null || userId == null) return;
+            var httpCallHandler = new TwitchLib.Api.Core.HttpCallHandlers.TwitchHttpClient();
+            Task.Run(async () =>
+            {
+               var response = await _api.Helix.Clips.CreateClipAsync(userId, CredentialsHelper.GetTwitchAccount().TwitchAccessToken);
+               MacroDeckLogger.Info(PluginInstance.Main, $"Clip created");
+            });
         }
 
         public static void Disconnect()

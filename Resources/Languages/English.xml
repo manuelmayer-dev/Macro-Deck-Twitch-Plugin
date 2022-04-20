@@ -23,6 +23,9 @@ A Twitch Partner or Affiliate account is required</ActionPlayAdDescription>
   <ActionStreamMarker>Stream marker</ActionStreamMarker>
   <ActionStreamMarkerDescription>Places a stream marker
 Only works while you're live</ActionStreamMarkerDescription>
+  <ActionMakeClip>Make clip</ActionMakeClip>
+  <ActionMakeClipDescription>Creates a clip from recent broadcast video
+Only works while you're live</ActionMakeClipDescription>
   <GeneralLength>Length</GeneralLength>
   <AuthToken>Auth token</AuthToken>
   <GetToken>Get token</GetToken>
