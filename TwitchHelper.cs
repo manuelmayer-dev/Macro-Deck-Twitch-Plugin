@@ -173,7 +173,7 @@ namespace SuchByte.TwitchPlugin
                 var followers = await _api.Helix.Users.GetUsersFollowsAsync(toId: userId);
                 if (followers == null) return;
                 var followersCount = followers.TotalFollows;
-                VariableManager.SetValue(username + "_followers", followersCount, VariableType.Integer, PluginInstance.Main, true);
+                VariableManager.SetValue(username + "_followers", followersCount, VariableType.Integer, PluginInstance.Main, null);
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Followers count: {followersCount}");
             }
             catch { }
@@ -188,7 +188,7 @@ namespace SuchByte.TwitchPlugin
                 var subscribers = await _api.Helix.Subscriptions.GetBroadcasterSubscriptionsAsync(userId);
                 if (subscribers == null) return;
                 var subscribersCount = subscribers.Total;
-                VariableManager.SetValue(username + "_subscribers", subscribersCount, VariableType.Integer, PluginInstance.Main, true);
+                VariableManager.SetValue(username + "_subscribers", subscribersCount, VariableType.Integer, PluginInstance.Main, null);
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Subscribers count: {subscribersCount}");
             }
             catch { }
@@ -224,10 +224,10 @@ namespace SuchByte.TwitchPlugin
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Subs only: {SubscibersOnlyChat}");
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Emotes only: {EmotesOnlyChat}");
 
-                VariableManager.SetValue(username + "_slow_chat", SlowChat, VariableType.Bool, PluginInstance.Main, true);
-                VariableManager.SetValue(username + "_followers_only_chat", FollowersOnlyChat, VariableType.Bool, PluginInstance.Main, true);
-                VariableManager.SetValue(username + "_subs_only_chat", SubscibersOnlyChat, VariableType.Bool, PluginInstance.Main, true);
-                VariableManager.SetValue(username + "_emotes_only_chat", EmotesOnlyChat, VariableType.Bool, PluginInstance.Main, true);
+                VariableManager.SetValue(username + "_slow_chat", SlowChat, VariableType.Bool, PluginInstance.Main, null);
+                VariableManager.SetValue(username + "_followers_only_chat", FollowersOnlyChat, VariableType.Bool, PluginInstance.Main, null);
+                VariableManager.SetValue(username + "_subs_only_chat", SubscibersOnlyChat, VariableType.Bool, PluginInstance.Main, null);
+                VariableManager.SetValue(username + "_emotes_only_chat", EmotesOnlyChat, VariableType.Bool, PluginInstance.Main, null);
 
             }
             catch (Exception ex)
@@ -247,7 +247,7 @@ namespace SuchByte.TwitchPlugin
                 var stream = await _api.Helix.Streams.GetStreamsAsync(userIds: new List<string> { userId });
                 if (stream == null || stream.Streams == null || stream.Streams.FirstOrDefault() == null) return;
                 var viewersCount = stream.Streams.FirstOrDefault().ViewerCount;
-                VariableManager.SetValue(username + "_viewers", viewersCount, VariableType.Integer, PluginInstance.Main, true);
+                VariableManager.SetValue(username + "_viewers", viewersCount, VariableType.Integer, PluginInstance.Main, null);
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Viewer count: {viewersCount}");
             } catch { }
         }
