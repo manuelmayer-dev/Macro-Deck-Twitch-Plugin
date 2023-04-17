@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using TwitchLib.Api.Core.Enums;
+using TwitchLib.Client.Enums;
 
 namespace SuchByte.TwitchPlugin.Views
 {
