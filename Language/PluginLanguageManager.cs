@@ -1,8 +1,4 @@
-﻿/* Some parts of this class are based on @PhoenixWyllow's implementation of translation files, he's using in the Soundboard4MacroDeck2 plugin
- * The link to the original file: https://github.com/PhoenixWyllow/Soundboard4MacroDeck2/blob/main/Services/Localization.cs
- */
-
-using SuchByte.MacroDeck.Language;
+﻿using SuchByte.MacroDeck.Language;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
 using SuchByte.TwitchPlugin;
@@ -18,10 +14,7 @@ namespace SuchByte.TwitchPlugin.Language
 {
     public static class PluginLanguageManager
     {
-        public static PluginStrings PluginStrings = new PluginStrings();
-
-        
-
+        public static PluginStrings PluginStrings = new();
 
         public static void Initialize()
         {
@@ -33,14 +26,12 @@ namespace SuchByte.TwitchPlugin.Language
         private static void LoadLanguage()
         {
             // Getting the current language that is set in Macro Deck
-            string languageName = LanguageManager.GetLanguageName();
+            var languageName = LanguageManager.GetLanguageName();
 
             try
             {
-                using (TextReader reader = new StringReader(GetXMLLanguageResource(languageName)))
-                {
-                    PluginStrings = (PluginStrings)new XmlSerializer(typeof(PluginStrings)).Deserialize(reader);
-                }
+                using TextReader reader = new StringReader(GetXmlLanguageResource(languageName));
+                PluginStrings = (PluginStrings)new XmlSerializer(typeof(PluginStrings)).Deserialize(reader);
             }
             catch
             {
@@ -53,11 +44,11 @@ namespace SuchByte.TwitchPlugin.Language
         {
             try
             {
-                XmlSerializer writer = new XmlSerializer(typeof(PluginStrings));
+                var writer = new XmlSerializer(typeof(PluginStrings));
 
-                var path = Path.Combine(PluginManager.PluginDirectories[PluginInstance.Main], PluginStrings.__Language__ + ".xml");
+                var path = Path.Combine(PluginManager.PluginDirectories[PluginInstance.Main], PluginStrings.ActionLanguage + ".xml");
 
-                using (FileStream fileStream = File.Create(path))
+                using (var fileStream = File.Create(path))
                 {
                     writer.Serialize(fileStream, PluginStrings);
                     fileStream.Close();
@@ -71,7 +62,7 @@ namespace SuchByte.TwitchPlugin.Language
         }
 
 
-        private static string GetXMLLanguageResource(string languageName)
+        private static string GetXmlLanguageResource(string languageName)
         {
             var assembly = typeof(PluginStrings).Assembly;
             if (string.IsNullOrEmpty(languageName)
@@ -80,9 +71,14 @@ namespace SuchByte.TwitchPlugin.Language
                 languageName = "English"; //This should always be present as default, otherwise the code goes to fallback implementation.
             }
 
-            string languageFileName = $"SuchByte.TwitchPlugin.Resources.Languages.{languageName}.xml";
+            var languageFileName = $"SuchByte.TwitchPlugin.Resources.Languages.{languageName}.xml";
 
             using var resourceStream = assembly.GetManifestResourceStream(languageFileName);
+            if (resourceStream is null)
+            {
+                return string.Empty;
+            }
+            
             using var streamReader = new StreamReader(resourceStream);
             return streamReader.ReadToEnd();
         }

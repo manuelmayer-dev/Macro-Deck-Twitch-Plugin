@@ -21,7 +21,7 @@ namespace SuchByte.TwitchPlugin.Actions
 
         public override void Trigger(string clientId, ActionButton actionButton)
         {
-            var configModel = SetSubscriberChatActionConfigModel.Deserialize(this.Configuration);
+            var configModel = SetSubscriberChatActionConfigModel.Deserialize(Configuration);
             if (configModel != null)
             {
                 switch (configModel.Method)
@@ -33,7 +33,7 @@ namespace SuchByte.TwitchPlugin.Actions
                         TwitchHelper.SetSubscriberChat(false);
                         break;
                     case SetSubscriberChatActionMethod.Toggle:
-                        TwitchHelper.SetSubscriberChat(!TwitchHelper.SubscibersOnlyChat);
+                        TwitchHelper.SetSubscriberChat(!TwitchHelper.SubscribersOnlyChat);
                         break;
                 }
             }

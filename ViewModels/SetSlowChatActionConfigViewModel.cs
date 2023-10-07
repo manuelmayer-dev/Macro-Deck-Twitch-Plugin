@@ -29,8 +29,8 @@ namespace SuchByte.TwitchPlugin.ViewModels
 
         public SetSlowChatActionConfigViewModel(PluginAction action)
         {
-            this.Configuration = SetSlowChatActionConfigModel.Deserialize(action.Configuration);
-            this._action = action;
+            Configuration = SetSlowChatActionConfigModel.Deserialize(action.Configuration);
+            _action = action;
         }
 
         public bool SaveConfig()

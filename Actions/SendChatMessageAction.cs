@@ -21,8 +21,8 @@ namespace SuchByte.TwitchPlugin.Actions
 
         public override void Trigger(string clientId, ActionButton actionButton)
         {
-            var message = SendChatMessageActionConfigModel.Deserialize(this.Configuration).Message;
-            foreach (MacroDeck.Variables.Variable variable in MacroDeck.Variables.VariableManager.Variables)
+            var message = SendChatMessageActionConfigModel.Deserialize(Configuration).Message;
+            foreach (var variable in MacroDeck.Variables.VariableManager.Variables)
             {
                 if (message.ToLower().Contains("{" + variable.Name.ToLower() + "}"))
                 {

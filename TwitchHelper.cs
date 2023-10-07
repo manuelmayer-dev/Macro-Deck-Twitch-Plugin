@@ -28,63 +28,71 @@ namespace SuchByte.TwitchPlugin
         private static string _channel;
 
         private static TwitchAPI _api;
-
-
+        
+        public static bool IsConnected => _client is not null && _client.IsConnected && _channel is not null;
+        
         public static event EventHandler LoginSuccessful;
 
         public static event EventHandler LoginFailed;
 
         public static event EventHandler ConnectionStateChanged;
 
-        private static string userId = "";
-        private static string username = "";
+        private static string _userId = "";
+        private static string _username = "";
 
-        private static System.Timers.Timer updateTimer;
+        private static System.Timers.Timer _updateTimer;
 
-        public static bool SlowChat { get; set; } = false;
+        public static bool SlowChat { get; set; }
 
-        public static bool FollowersOnlyChat { get; set; } = false;
+        public static bool FollowersOnlyChat { get; set; }
 
-        public static bool SubscibersOnlyChat { get; set; } = false;
+        public static bool SubscribersOnlyChat { get; set; }
 
-        public static bool EmotesOnlyChat { get; set; } = false;
+        public static bool EmotesOnlyChat { get; set; }
 
 
-        public static void Connect(TwitchAccount account)
+        public static async Task Connect(TwitchAccount account)
         {
-            ConfigTwitchAPI(account.TwitchAccessToken);
-            ConfigTwitchChat(account.TwitchAccessToken);
-            if (updateTimer != null)
+            await ConfigTwitchApi(account.TwitchAccessToken);
+            await ConfigTwitchChat(account.TwitchAccessToken);
+            if (_updateTimer is not null)
             {
-                updateTimer.Enabled = false;
-                updateTimer.Dispose();
+                _updateTimer.Enabled = false;
+                _updateTimer.Dispose();
             }
-            updateTimer = new System.Timers.Timer
+            _updateTimer = new System.Timers.Timer
             {
                 Interval = 1000*45,
                 Enabled = true
             };
-            updateTimer.Elapsed += UpdateTimer_Elapsed;
+            _updateTimer.Elapsed += UpdateTimer_Elapsed;
         }
 
-        private static async void ConfigTwitchChat(string accesstoken)
+        private static async Task ConfigTwitchChat(string accessToken)
         {
             try
             {
-                char prefix = string.IsNullOrEmpty(PluginConfiguration.GetValue(PluginInstance.Main, "commandPrefix")) ? '!' : PluginConfiguration.GetValue(PluginInstance.Main, "commandPrefix")[0];
+                var prefix = string.IsNullOrEmpty(PluginConfiguration.GetValue(PluginInstance.Main, "commandPrefix"))
+                    ? '!'
+                    : PluginConfiguration.GetValue(PluginInstance.Main, "commandPrefix")[0];
+                
                 var users = await _api.Helix.Users.GetUsersAsync();
-                if (users == null || users.Users == null || users.Users.FirstOrDefault() == null) return;
-                username = users.Users.FirstOrDefault().Login;
-                MacroDeckLogger.Info(PluginInstance.Main, $"Using login: {username}");
+                if (users?.Users?.FirstOrDefault() == null)
+                {
+                    return;
+                }
+                
+                _username = users.Users.FirstOrDefault()?.Login;
+                MacroDeckLogger.Info(PluginInstance.Main, $"Using login: {_username}");
 
-                ConnectionCredentials credentials = new ConnectionCredentials(username, accesstoken);
+                var credentials = new ConnectionCredentials(_username, accessToken);
 
-                if (_client != null && _client.IsConnected)
+                if (_client is not null && _client.IsConnected)
                 {
                     _client.Disconnect();
                 }
                 _client = new TwitchClient();
-                _client.Initialize(credentials, username, prefix, prefix);
+                _client.Initialize(credentials, _username, prefix, prefix);
 
                 _client.OnLog += Client_OnLog;
                 _client.OnError += Client_OnError;
@@ -112,51 +120,60 @@ namespace SuchByte.TwitchPlugin
 
         private static void Client_OnChatCommandReceived(object sender, OnChatCommandReceivedArgs e)
         {
-            if (e.Command.ChatMessage.IsModerator || e.Command.ChatMessage.IsBroadcaster)
+            if (!e.Command.ChatMessage.IsModerator && !e.Command.ChatMessage.IsBroadcaster)
             {
-                MacroDeckLogger.Trace(PluginInstance.Main, "Command: [" + e.Command.CommandText + "] " + e.Command.ChatMessage.Username + " (Mod)");
-                PluginInstance.Main.CommandIssued(e.Command.CommandText, e);
+                return;
             }
+            
+            MacroDeckLogger.Trace(PluginInstance.Main, "Command: [" + e.Command.CommandText + "] " + e.Command.ChatMessage.Username + " (Mod)");
+            PluginInstance.Main.CommandIssued(e.Command.CommandText, e);
         }
 
-        private static void UpdateTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private static async void UpdateTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (_api == null) return;
-            Task.Run(() => UpdateViewerCountAsync());
-            Task.Run(() => UpdateFollowersAsync());
+            if (_api == null)
+            {
+                return;
+            }
+            
+            await UpdateViewerCountAsync();
+            await UpdateFollowersAsync();
         }
 
-        private static void ConfigTwitchAPI(string accessToken)
+        private static async Task ConfigTwitchApi(string accessToken)
         {
-            _api = new TwitchAPI();
-            _api.Settings.ClientId = "m656oj5wocmg54tmjtkydhobl93ej4";
-            _api.Settings.AccessToken = accessToken;
-            Task.Run(() => {
-                GetUserIdAsync();
-                UpdateViewerCountAsync();
-                UpdateFollowersAsync();
-                UpdateSubscribersAsync();
+            _api = new TwitchAPI
+            {
+                Settings =
+                {
+                    ClientId = "m656oj5wocmg54tmjtkydhobl93ej4",
+                    AccessToken = accessToken
                 }
-            );
+            };
+
+            await GetUserIdAsync();
+            await UpdateViewerCountAsync();
+            await UpdateFollowersAsync();
+            await UpdateSubscribersAsync();
         }
 
 
-        private static async void SetTitleGameAsync(string title, string game)
+        private static async Task SetTitleGameAsync(string title, string game)
         {
             try
             {
-                TwitchLib.Api.Helix.Models.Channels.ModifyChannelInformation.ModifyChannelInformationRequest modifyChannelInformationRequest = new TwitchLib.Api.Helix.Models.Channels.ModifyChannelInformation.ModifyChannelInformationRequest();
+                var modifyChannelInformationRequest = new TwitchLib.Api.Helix.Models.Channels.ModifyChannelInformation.ModifyChannelInformationRequest();
                 if (!string.IsNullOrEmpty(game))
                 {
                     var games = await _api.Helix.Games.GetGamesAsync(gameNames: new List<string> { game });
-                    if (games != null && games.Games != null && games.Games.FirstOrDefault() != null)
+                    if (games?.Games?.FirstOrDefault() is not null)
                     {
-                        modifyChannelInformationRequest.GameId = games.Games.FirstOrDefault().Id;
+                        modifyChannelInformationRequest.GameId = games.Games.FirstOrDefault()?.Id;
                     }
                 }
                 if (string.IsNullOrEmpty(title)) modifyChannelInformationRequest.Title = title;
 
-                await _api.Helix.Channels.ModifyChannelInformationAsync(userId, modifyChannelInformationRequest);
+                await _api.Helix.Channels.ModifyChannelInformationAsync(_userId, modifyChannelInformationRequest);
             }
             catch (Exception ex)
             {
@@ -164,71 +181,73 @@ namespace SuchByte.TwitchPlugin
             }
         }
 
-        private static async void UpdateFollowersAsync()
+        private static async Task UpdateFollowersAsync()
         {
             MacroDeckLogger.Trace(PluginInstance.Main, "Updating followers count");
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(userId)) return;
+            if (string.IsNullOrWhiteSpace(_username) || string.IsNullOrWhiteSpace(_userId)) return;
             try
             {
-                var followers = await _api.Helix.Users.GetUsersFollowsAsync(toId: userId);
+                var followers = await _api.Helix.Users.GetUsersFollowsAsync(toId: _userId);
                 if (followers == null) return;
                 var followersCount = followers.TotalFollows;
-                VariableManager.SetValue(username + "_followers", followersCount, VariableType.Integer, PluginInstance.Main, null);
+                VariableManager.SetValue(_username + "_followers", followersCount, VariableType.Integer, PluginInstance.Main, null);
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Followers count: {followersCount}");
             }
             catch { }
         }
 
-        private static async void UpdateSubscribersAsync()
+        private static async Task UpdateSubscribersAsync()
         {
             MacroDeckLogger.Trace(PluginInstance.Main, "Updating subscribers count");
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(userId)) return;
+            if (string.IsNullOrWhiteSpace(_username) || string.IsNullOrWhiteSpace(_userId)) return;
             try
             {
-                var subscribers = await _api.Helix.Subscriptions.GetBroadcasterSubscriptionsAsync(userId);
+                var subscribers = await _api.Helix.Subscriptions.GetBroadcasterSubscriptionsAsync(_userId);
                 if (subscribers == null) return;
                 var subscribersCount = subscribers.Total;
-                VariableManager.SetValue(username + "_subscribers", subscribersCount, VariableType.Integer, PluginInstance.Main, null);
+                VariableManager.SetValue(_username + "_subscribers", subscribersCount, VariableType.Integer, PluginInstance.Main, null);
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Subscribers count: {subscribersCount}");
             }
             catch { }
         }
 
-        private static async void GetUserIdAsync()
+        private static async Task GetUserIdAsync()
         {
             try
             {
                 var users = await _api.Helix.Users.GetUsersAsync();
-                if (users == null || users.Users == null || users.Users.FirstOrDefault() == null) return;
-                userId = users.Users.FirstOrDefault().Id;
+                _userId = users?.Users?.FirstOrDefault()?.Id;
             } catch (Exception ex)
             {
                 MacroDeckLogger.Error(PluginInstance.Main, $"Error while getting user id: {ex.Message + Environment.NewLine + ex.StackTrace}");
             }
         }
 
-        private static async void UpdateChannelSettingsAsync()
+        private static async Task UpdateChannelSettingsAsync()
         {
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(userId)) return;
+            if (string.IsNullOrWhiteSpace(_username) || string.IsNullOrWhiteSpace(_userId)) return;
             try
             {
-                GetChatSettingsResponse channelSettings = await _api.Helix.Chat.GetChatSettingsAsync(userId, userId);
-                if (channelSettings == null || channelSettings.Data == null || channelSettings.Data.FirstOrDefault() == null) return;
-                SlowChat = channelSettings.Data.FirstOrDefault().SlowMode;
-                FollowersOnlyChat = channelSettings.Data.FirstOrDefault().FollowerMode;
-                SubscibersOnlyChat = channelSettings.Data.FirstOrDefault().SubscriberMode;
-                EmotesOnlyChat = channelSettings.Data.FirstOrDefault().EmoteMode;
+                var channelSettings = await _api.Helix.Chat.GetChatSettingsAsync(_userId, _userId);
+                if (channelSettings?.Data?.FirstOrDefault() == null)
+                {
+                    return;
+                }
+                
+                SlowChat = channelSettings?.Data?.FirstOrDefault()?.SlowMode is true;
+                FollowersOnlyChat = channelSettings?.Data?.FirstOrDefault()?.FollowerMode is true;
+                SubscribersOnlyChat = channelSettings?.Data?.FirstOrDefault()?.SubscriberMode is true;
+                EmotesOnlyChat = channelSettings?.Data?.FirstOrDefault()?.EmoteMode is true;
 
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Slow chat: {SlowChat}");
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Followers only: {FollowersOnlyChat}");
-                MacroDeckLogger.Trace(PluginInstance.Main, $"Subs only: {SubscibersOnlyChat}");
+                MacroDeckLogger.Trace(PluginInstance.Main, $"Subs only: {SubscribersOnlyChat}");
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Emotes only: {EmotesOnlyChat}");
 
-                VariableManager.SetValue(username + "_slow_chat", SlowChat, VariableType.Bool, PluginInstance.Main, null);
-                VariableManager.SetValue(username + "_followers_only_chat", FollowersOnlyChat, VariableType.Bool, PluginInstance.Main, null);
-                VariableManager.SetValue(username + "_subs_only_chat", SubscibersOnlyChat, VariableType.Bool, PluginInstance.Main, null);
-                VariableManager.SetValue(username + "_emotes_only_chat", EmotesOnlyChat, VariableType.Bool, PluginInstance.Main, null);
-
+                VariableManager.SetValue(_username + "_slow_chat", SlowChat, VariableType.Bool, PluginInstance.Main, null);
+                VariableManager.SetValue(_username + "_followers_only_chat", FollowersOnlyChat, VariableType.Bool, PluginInstance.Main, null);
+                VariableManager.SetValue(_username + "_subs_only_chat", SubscribersOnlyChat, VariableType.Bool, PluginInstance.Main, null);
+                VariableManager.SetValue(_username + "_emotes_only_chat", EmotesOnlyChat, VariableType.Bool, PluginInstance.Main, null);
             }
             catch (Exception ex)
             {
@@ -236,27 +255,26 @@ namespace SuchByte.TwitchPlugin
             }
         }
 
-        private static async void UpdateViewerCountAsync()
+        private static async Task UpdateViewerCountAsync()
         {
             MacroDeckLogger.Trace(PluginInstance.Main, "Updating viewers count");
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(userId)) return;
+            if (string.IsNullOrWhiteSpace(_username) || string.IsNullOrWhiteSpace(_userId)) return;
             try
             {
                 var users = await _api.Helix.Users.GetUsersAsync();
                 if (users == null) return;
-                var stream = await _api.Helix.Streams.GetStreamsAsync(userIds: new List<string> { userId });
-                if (stream == null || stream.Streams == null || stream.Streams.FirstOrDefault() == null) return;
-                var viewersCount = stream.Streams.FirstOrDefault().ViewerCount;
-                VariableManager.SetValue(username + "_viewers", viewersCount, VariableType.Integer, PluginInstance.Main, null);
+                var stream = await _api.Helix.Streams.GetStreamsAsync(userIds: new List<string> { _userId });
+                var viewersCount = stream?.Streams?.FirstOrDefault()?.ViewerCount ?? 0;
+                VariableManager.SetValue(_username + "_viewers", viewersCount, VariableType.Integer, PluginInstance.Main, null);
                 MacroDeckLogger.Trace(PluginInstance.Main, $"Viewer count: {viewersCount}");
             } catch { }
         }
 
 
 
-        private static void Client_OnNewSubscriber(object sender, OnNewSubscriberArgs e)
+        private static async void Client_OnNewSubscriber(object sender, OnNewSubscriberArgs e)
         {
-            Task.Run(() => UpdateSubscribersAsync());
+            await UpdateSubscribersAsync();
         }
 
         private static void Client_OnError(object sender, TwitchLib.Communication.Events.OnErrorEventArgs e)
@@ -266,33 +284,20 @@ namespace SuchByte.TwitchPlugin
 
         private static void Client_OnDisconnected(object sender, TwitchLib.Communication.Events.OnDisconnectedEventArgs e)
         {
-            if (ConnectionStateChanged != null)
-            {
-                ConnectionStateChanged(null, EventArgs.Empty);
-            }
+            ConnectionStateChanged?.Invoke(null, EventArgs.Empty);
         }
 
         private static void Client_OnConnectionError(object sender, OnConnectionErrorArgs e)
         {
-            if (LoginFailed != null)
-            {
-                LoginFailed(null, EventArgs.Empty);
-            }
-            if (ConnectionStateChanged != null)
-            {
-                ConnectionStateChanged(null, EventArgs.Empty);
-            }
+            LoginFailed?.Invoke(null, EventArgs.Empty);
+            ConnectionStateChanged?.Invoke(null, EventArgs.Empty);
         }
 
         private static void Client_OnIncorrectLogin(object sender, OnIncorrectLoginArgs e)
         {
-            if (LoginFailed != null)
-            {
-                LoginFailed(null, EventArgs.Empty);
-            }
+            LoginFailed?.Invoke(null, EventArgs.Empty);
         }
-
-
+        
         private static void Client_OnUserLeft(object sender, OnUserLeftArgs e)
         {
             MacroDeckLogger.Trace(PluginInstance.Main, "User left");
@@ -303,11 +308,10 @@ namespace SuchByte.TwitchPlugin
             MacroDeckLogger.Trace(PluginInstance.Main, "User joined");
         }
 
-        private static void Client_OnChannelStateChanged(object sender, OnChannelStateChangedArgs e)
+        private static async void Client_OnChannelStateChanged(object sender, OnChannelStateChangedArgs e)
         {
             MacroDeckLogger.Trace(PluginInstance.Main, "Channel state changed");
-            Task.Run(() => UpdateChannelSettingsAsync());
-            
+            await UpdateChannelSettingsAsync();
         }
 
         private static void Client_OnLog(object sender, OnLogArgs e)
@@ -317,10 +321,7 @@ namespace SuchByte.TwitchPlugin
 
         private static void Client_OnConnected(object sender, OnConnectedArgs e)
         {
-            if (LoginSuccessful != null)
-            {
-                LoginSuccessful(null, EventArgs.Empty);
-            }
+            LoginSuccessful?.Invoke(null, EventArgs.Empty);
             MacroDeckLogger.Info(PluginInstance.Main, $"Client connected to Twitch");
         }
 
@@ -328,22 +329,27 @@ namespace SuchByte.TwitchPlugin
         {
             _channel = e.Channel;
             MacroDeckLogger.Info(PluginInstance.Main, $"Joined channel { e.Channel }");
-            if (ConnectionStateChanged != null)
-            {
-                ConnectionStateChanged(null, EventArgs.Empty);
-            }
+            ConnectionStateChanged?.Invoke(null, EventArgs.Empty);
         }
 
         public static void ClearChat()
         {
-            if (_client == null || !_client.IsConnected || _channel == null) return;
+            if (_client == null || !_client.IsConnected || _channel == null)
+            {
+                return;
+            }
+            
             TwitchLib.Client.Extensions.ClearChatExt.ClearChat(_client, _channel);
             MacroDeckLogger.Info(PluginInstance.Main, "Cleared chat");
         }
 
         public static void SendChatMessage(string message)
         {
-            if (_client == null || !_client.IsConnected || _channel == null) return;
+            if (_client == null || !_client.IsConnected || _channel == null)
+            {
+                return;
+            }
+            
             _client.SendMessage(_channel, message);
             MacroDeckLogger.Info(PluginInstance.Main, $"Sent chat message: { message }");
         }
@@ -365,14 +371,22 @@ namespace SuchByte.TwitchPlugin
 
         public static void PlayAd(CommercialLength length)
         {
-            if (_client == null || !_client.IsConnected || _channel == null) return;
+            if (_client == null || !_client.IsConnected || _channel == null)
+            {
+                return;
+            }
+            
             TwitchLib.Client.Extensions.CommercialExt.StartCommercial(_client, _channel, length);
             MacroDeckLogger.Info(PluginInstance.Main, $"Play commercial: { length.ToString() }");
         }
 
         public static void SetEmoteChat(bool state)
         {
-            if (_client == null || !_client.IsConnected || _channel == null) return;
+            if (_client == null || !_client.IsConnected || _channel == null)
+            {
+                return;
+            }
+            
             switch (state)
             {
                 case true:
@@ -388,7 +402,11 @@ namespace SuchByte.TwitchPlugin
 
         public static void FollowerChat(bool state, TimeSpan requiredFollowTime)
         {
-            if (_client == null || !_client.IsConnected || _channel == null) return;
+            if (_client == null || !_client.IsConnected || _channel == null)
+            {
+                return;
+            }
+            
             switch (state)
             {
                 case true:
@@ -404,7 +422,11 @@ namespace SuchByte.TwitchPlugin
 
         public static void SetSubscriberChat(bool state)
         {
-            if (_client == null || !_client.IsConnected || _channel == null) return;
+            if (_client == null || !_client.IsConnected || _channel == null)
+            {
+                return;
+            }
+            
             switch (state)
             {
                 case true:
@@ -418,36 +440,48 @@ namespace SuchByte.TwitchPlugin
         }
 
 
-        public static void SetTitleGame(string title, string game)
+        public static async Task SetTitleGame(string title, string game)
         {
             if (_api == null) return;
-            Task.Run(() => SetTitleGameAsync(title, game));
-            if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(game))
-                MacroDeckLogger.Info(PluginInstance.Main, $"Set title to {title} and game to {game}");
-            else if (!string.IsNullOrEmpty(title))
-                MacroDeckLogger.Info(PluginInstance.Main, $"Set title to {title}");
-            else if (!string.IsNullOrEmpty(game))
-                MacroDeckLogger.Info(PluginInstance.Main, $"Set game to {game}");
-            else
-                MacroDeckLogger.Info(PluginInstance.Main, $"Set nothing");
+            await SetTitleGameAsync(title, game);
+            
+            switch (string.IsNullOrEmpty(title))
+            {
+                case false when !string.IsNullOrEmpty(game):
+                    MacroDeckLogger.Info(PluginInstance.Main, $"Set title to {title} and game to {game}");
+                    break;
+                case false:
+                    MacroDeckLogger.Info(PluginInstance.Main, $"Set title to {title}");
+                    break;
+                default:
+                {
+                    MacroDeckLogger.Info(PluginInstance.Main,
+                        !string.IsNullOrEmpty(game) ? $"Set game to {game}" : $"Set nothing");
+                    break;
+                }
+            }
         }
 
         public static void Marker()
         {
-            if (_client == null || !_client.IsConnected || _channel == null) return;
+            if (_client == null || !_client.IsConnected || _channel == null)
+            {
+                return;
+            }
+            
             TwitchLib.Client.Extensions.MarkerExt.Marker(_client, _channel);
             MacroDeckLogger.Info(PluginInstance.Main, $"Placed stream marker");
         }
 
-        public static void MakeClip()
+        public static async Task MakeClip()
         {
-            if (_api == null || userId == null) return;
-            var httpCallHandler = new TwitchLib.Api.Core.HttpCallHandlers.TwitchHttpClient();
-            Task.Run(async () =>
+            if (_api == null || _userId == null)
             {
-               var response = await _api.Helix.Clips.CreateClipAsync(userId, CredentialsHelper.GetTwitchAccount().TwitchAccessToken);
-               MacroDeckLogger.Info(PluginInstance.Main, $"Clip created");
-            });
+                return;
+            }
+            
+            await _api.Helix.Clips.CreateClipAsync(_userId, CredentialsHelper.GetTwitchAccount().TwitchAccessToken);
+            MacroDeckLogger.Info(PluginInstance.Main, $"Clip created");
         }
 
         public static void Disconnect()
@@ -455,12 +489,5 @@ namespace SuchByte.TwitchPlugin
             if (!IsConnected) return;
             _client.Disconnect();
         }
-
-        public static bool IsConnected
-        {
-            get => _client != null && _client.IsConnected && _channel != null;
-        }
-
-
     }
 }

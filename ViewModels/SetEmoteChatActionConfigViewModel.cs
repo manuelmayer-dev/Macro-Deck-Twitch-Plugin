@@ -23,8 +23,8 @@ namespace SuchByte.TwitchPlugin.ViewModels
 
         public SetEmoteChatActionConfigViewModel(PluginAction action)
         {
-            this.Configuration = SetEmoteChatActionConfigModel.Deserialize(action.Configuration);
-            this._action = action;
+            Configuration = SetEmoteChatActionConfigModel.Deserialize(action.Configuration);
+            _action = action;
         }
 
         public bool SaveConfig()

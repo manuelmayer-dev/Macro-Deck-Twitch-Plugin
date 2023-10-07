@@ -13,9 +13,9 @@ namespace SuchByte.TwitchPlugin.Actions
 
         public override string Description => PluginLanguageManager.PluginStrings.ActionMakeClipDescription;
 
-        public override void Trigger(string clientId, ActionButton actionButton)
+        public override async void Trigger(string clientId, ActionButton actionButton)
         {
-            TwitchHelper.MakeClip();
+            await TwitchHelper.MakeClip();
         }
     }
 }
