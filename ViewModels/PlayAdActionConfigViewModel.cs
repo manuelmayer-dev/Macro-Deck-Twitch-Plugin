@@ -23,8 +23,8 @@ namespace SuchByte.TwitchPlugin.ViewModels
 
         public PlayAdActionConfigViewModel(PluginAction action)
         {
-            this.Configuration = PlayAdActionConfigModel.Deserialize(action.Configuration);
-            this._action = action;
+            Configuration = PlayAdActionConfigModel.Deserialize(action.Configuration);
+            _action = action;
         }
 
         public bool SaveConfig()

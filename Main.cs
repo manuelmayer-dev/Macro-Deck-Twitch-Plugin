@@ -14,6 +14,7 @@ using SuchByte.TwitchPlugin.Views;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SuchByte.TwitchPlugin
@@ -21,20 +22,16 @@ namespace SuchByte.TwitchPlugin
     public static class PluginInstance {
         public static Main Main { get; set; }
     }
-
-
+    
     public class Main : MacroDeckPlugin
     {
-        private ContentSelectorButton statusButton = new ContentSelectorButton();
+        private ContentSelectorButton _statusButton = new();
 
-        private readonly ToolTip statusToolTip = new ToolTip();
+        private readonly ToolTip _statusToolTip = new();
 
-        private MainWindow mainWindow;
+        private MainWindow _mainWindow;
 
-        public override Image Icon => Properties.Resources.Twitch_Plugin;
-
-        public override string Description => "Control Twitch using Macro Deck 2";
-        private ChatCommandEvent chatCommandEvent = new ChatCommandEvent();
+        private readonly ChatCommandEvent _chatCommandEvent = new();
 
         public Main()
         {
@@ -43,11 +40,10 @@ namespace SuchByte.TwitchPlugin
 
         public override bool CanConfigure => true;
 
-
-        public override void Enable()
+        public override  void Enable()
         {
             PluginLanguageManager.Initialize();
-            this.Actions = new List<PluginAction>()
+            Actions = new List<PluginAction>()
             {
                 new SetTitleGameAction(),
                 new ClearChatAction(),
@@ -60,7 +56,7 @@ namespace SuchByte.TwitchPlugin
                 new StreamMarkerAction(),
                 new MakeClipAction()
             };
-            EventManager.RegisterEvent(this.chatCommandEvent);
+            EventManager.RegisterEvent(_chatCommandEvent);
 
             MacroDeck.MacroDeck.OnMainWindowLoad += MacroDeck_OnMainWindowLoad;
             TwitchHelper.ConnectionStateChanged += TwitchHelper_ConnectionStateChanged;
@@ -70,55 +66,55 @@ namespace SuchByte.TwitchPlugin
                 MacroDeck_OnMainWindowLoad(MacroDeck.MacroDeck.MainWindow, EventArgs.Empty);
             }
 
-            Connect();
+            Task.Run(async () => await Connect());
         }
 
-        private void Connect()
+        private static async Task Connect()
         {
-            TwitchAccount twitchAccount = CredentialsHelper.GetTwitchAccount();
+            var twitchAccount = CredentialsHelper.GetTwitchAccount();
             if (twitchAccount != null)
             {
-                TwitchHelper.Connect(twitchAccount);
+                await TwitchHelper.Connect(twitchAccount);
             }
         }
 
         private void TwitchHelper_ConnectionStateChanged(object sender, EventArgs e)
         {
-            UpdateStautusIcon();
+            UpdateStatusIcon();
         }
 
         private void MacroDeck_OnMainWindowLoad(object sender, EventArgs e)
         {
-            mainWindow = sender as MainWindow;
+            _mainWindow = sender as MainWindow;
 
-            this.statusButton = new ContentSelectorButton
+            _statusButton = new ContentSelectorButton
             {
                 BackgroundImageLayout = ImageLayout.Stretch,
 
             };
-            statusButton.Click += StatusButton_Click;
-            mainWindow.contentButtonPanel.Controls.Add(statusButton);
-            UpdateStautusIcon();
+            _statusButton.Click += StatusButton_Click;
+            _mainWindow?.contentButtonPanel.Controls.Add(_statusButton);
+            UpdateStatusIcon();
         }
 
-        private void UpdateStautusIcon()
+        private void UpdateStatusIcon()
         {
 
-            if (this.mainWindow != null && !this.mainWindow.IsDisposed && this.statusButton != null && !this.statusButton.IsDisposed)
+            if (_mainWindow != null && !_mainWindow.IsDisposed && _statusButton != null && !_statusButton.IsDisposed)
             {
-                this.mainWindow.Invoke(new Action(() =>
+                _mainWindow.Invoke(() =>
                 {
-                    this.statusButton.BackgroundImage = TwitchHelper.IsConnected ? Properties.Resources.Twitch_Connected : Properties.Resources.Twitch_Disconnected;
-                    this.statusToolTip.SetToolTip(this.statusButton, "Twitch " + (TwitchHelper.IsConnected ? " Connected" : "Disconnected"));
-                }));
+                    _statusButton.BackgroundImage = TwitchHelper.IsConnected ? Properties.Resources.Twitch_Connected : Properties.Resources.Twitch_Disconnected;
+                    _statusToolTip.SetToolTip(_statusButton, "Twitch " + (TwitchHelper.IsConnected ? " Connected" : "Disconnected"));
+                });
             }
         }
 
-        private void StatusButton_Click(object sender, EventArgs e)
+        private async void StatusButton_Click(object sender, EventArgs e)
         {
             if (CredentialsHelper.GetTwitchAccount() == null)
             {
-                this.OpenConfigurator();
+                OpenConfigurator();
                 return;
             }
             if (TwitchHelper.IsConnected)
@@ -126,21 +122,19 @@ namespace SuchByte.TwitchPlugin
                 TwitchHelper.Disconnect();
             } else
             {
-                this.Connect();
+                await Connect();
             }
         }
 
         public override void OpenConfigurator()
         {
-            using (var pluginConfig = new PluginConfigView())
-            {
-                pluginConfig.ShowDialog();
-            }
+            using var pluginConfig = new PluginConfigView();
+            pluginConfig.ShowDialog();
         }
 
         public void CommandIssued(object sender, EventArgs e)
         {
-            this.chatCommandEvent.Trigger(sender);
+            _chatCommandEvent.Trigger(sender);
         }
 
         private class ChatCommandEvent : IMacroDeckEvent
@@ -152,7 +146,7 @@ namespace SuchByte.TwitchPlugin
             {
                 get
                 {
-                    List<string> commands = new List<string>();
+                    var commands = new List<string>();
                     var variable = PluginConfiguration.GetValue(PluginInstance.Main, "commandsList");
                     if (!string.IsNullOrWhiteSpace(variable))
                         commands.AddRange(variable.Split(';'));
@@ -163,29 +157,35 @@ namespace SuchByte.TwitchPlugin
 
             public void Trigger(object sender)
             {
-                if (this.OnEvent != null)
+                if (OnEvent == null)
                 {
-                    try
+                    return;
+                }
+                
+                try
+                {
+                    foreach (var macroDeckProfile in ProfileManager.Profiles)
                     {
-                        foreach (MacroDeckProfile macroDeckProfile in ProfileManager.Profiles)
+                        foreach (var folder in macroDeckProfile.Folders)
                         {
-                            foreach (MacroDeckFolder folder in macroDeckProfile.Folders)
+                            if (folder.ActionButtons == null)
                             {
-                                if (folder.ActionButtons == null) continue;
-                                foreach (ActionButton actionButton in folder.ActionButtons.FindAll(actionButton => actionButton.EventListeners != null && actionButton.EventListeners.Find(x => x.EventToListen != null && x.EventToListen.Equals(this.Name)) != null))
+                                continue;
+                            }
+                            
+                            foreach (var actionButton in folder.ActionButtons.FindAll(actionButton => actionButton.EventListeners != null && actionButton.EventListeners.Find(x => x.EventToListen != null && x.EventToListen.Equals(Name)) != null))
+                            {
+                                var macroDeckEventArgs = new MacroDeckEventArgs
                                 {
-                                    MacroDeckEventArgs macroDeckEventArgs = new MacroDeckEventArgs
-                                    {
-                                        ActionButton = actionButton,
-                                        Parameter = (string)sender,
-                                    };
-                                    this.OnEvent(this, macroDeckEventArgs);
-                                }
+                                    ActionButton = actionButton,
+                                    Parameter = (string)sender,
+                                };
+                                OnEvent(this, macroDeckEventArgs);
                             }
                         }
                     }
-                    catch { }
                 }
+                catch { }
             }
         }
     }

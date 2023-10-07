@@ -19,86 +19,86 @@ namespace SuchByte.TwitchPlugin.Views
         public SetTitleGameActionConfigView(PluginAction action)
         {
             InitializeComponent();
-            this.cbxStreamTitle.Text = PluginLanguageManager.PluginStrings.StreamTitle;
-            this.cbxGame.Text = PluginLanguageManager.PluginStrings.Game;
-            this._viewModel = new SetTitleGameActionConfigViewModel(action);
+            cbxStreamTitle.Text = PluginLanguageManager.PluginStrings.StreamTitle;
+            cbxGame.Text = PluginLanguageManager.PluginStrings.Game;
+            _viewModel = new SetTitleGameActionConfigViewModel(action);
         }
 
         private void SetTitleGameActionConfigView_Load(object sender, EventArgs e)
         {
-            this.streamTitle.Text = this._viewModel.StreamTitle;
-            this.cbxStreamTitle.Checked = this._viewModel.UseStreamTitle;
-            this.game.Text = this._viewModel.Game;
-            this.cbxGame.Checked = this._viewModel.UseGame;
+            streamTitle.Text = _viewModel.StreamTitle;
+            cbxStreamTitle.Checked = _viewModel.UseStreamTitle;
+            game.Text = _viewModel.Game;
+            cbxGame.Checked = _viewModel.UseGame;
         }
 
         public override bool OnActionSave()
         {
-            if (this.cbxStreamTitle.Checked && string.IsNullOrWhiteSpace(this.streamTitle.Text))
+            if (cbxStreamTitle.Checked && string.IsNullOrWhiteSpace(streamTitle.Text))
             {
                 return false;
             }
-            if (this.cbxGame.Checked && string.IsNullOrWhiteSpace(this.game.Text))
+            if (cbxGame.Checked && string.IsNullOrWhiteSpace(game.Text))
             {
                 return false;
             }
-            if (!this.cbxStreamTitle.Checked && !cbxGame.Checked)
+            if (!cbxStreamTitle.Checked && !cbxGame.Checked)
             {
                 return false;
             }
 
-            this._viewModel.StreamTitle = this.streamTitle.Text;
-            this._viewModel.UseStreamTitle = this.cbxStreamTitle.Checked;
-            this._viewModel.Game = this.game.Text;
-            this._viewModel.UseGame = this.cbxGame.Checked;
-            return this._viewModel.SaveConfig();
+            _viewModel.StreamTitle = streamTitle.Text;
+            _viewModel.UseStreamTitle = cbxStreamTitle.Checked;
+            _viewModel.Game = game.Text;
+            _viewModel.UseGame = cbxGame.Checked;
+            return _viewModel.SaveConfig();
         }
 
         private void BtnAddVariableTitle_Click(object sender, EventArgs e)
         {
-            this.variablesContextMenu.Items.Clear();
-            foreach (MacroDeck.Variables.Variable variable in MacroDeck.Variables.VariableManager.Variables)
+            variablesContextMenu.Items.Clear();
+            foreach (var variable in MacroDeck.Variables.VariableManager.Variables)
             {
-                ToolStripMenuItem item = new ToolStripMenuItem
+                var item = new ToolStripMenuItem
                 {
                     ForeColor = Color.White,
                     Text = variable.Name,
                 };
                 item.Click += AddVariableContextMenuItemTitleClick;
-                this.variablesContextMenu.Items.Add(item);
+                variablesContextMenu.Items.Add(item);
             }
-            this.variablesContextMenu.Show(PointToScreen(new Point(((ButtonPrimary)sender).Bounds.Left, ((ButtonPrimary)sender).Bounds.Bottom)));
+            variablesContextMenu.Show(PointToScreen(new Point(((ButtonPrimary)sender).Bounds.Left, ((ButtonPrimary)sender).Bounds.Bottom)));
         }
 
         private void btnAddVariableGame_Click(object sender, EventArgs e)
         {
-            this.variablesContextMenu.Items.Clear();
-            foreach (MacroDeck.Variables.Variable variable in MacroDeck.Variables.VariableManager.Variables)
+            variablesContextMenu.Items.Clear();
+            foreach (var variable in MacroDeck.Variables.VariableManager.Variables)
             {
-                ToolStripMenuItem item = new ToolStripMenuItem
+                var item = new ToolStripMenuItem
                 {
                     ForeColor = Color.White,
                     Text = variable.Name,
                 };
                 item.Click += AddVariableContextMenuItemGameClick;
-                this.variablesContextMenu.Items.Add(item);
+                variablesContextMenu.Items.Add(item);
             }
-            this.variablesContextMenu.Show(PointToScreen(new Point(((ButtonPrimary)sender).Bounds.Left, ((ButtonPrimary)sender).Bounds.Bottom)));
+            variablesContextMenu.Show(PointToScreen(new Point(((ButtonPrimary)sender).Bounds.Left, ((ButtonPrimary)sender).Bounds.Bottom)));
         }
 
         private void AddVariableContextMenuItemTitleClick(object sender, EventArgs e)
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            var selectionIndex = this.streamTitle.SelectionStart;
-            this.streamTitle.Text = this.streamTitle.Text.Insert(selectionIndex, "{" + item.Text + "}");
-            this.streamTitle.SelectionStart = selectionIndex + ("{" + item.Text + "}").Length;
+            var item = (ToolStripMenuItem)sender;
+            var selectionIndex = streamTitle.SelectionStart;
+            streamTitle.Text = streamTitle.Text.Insert(selectionIndex, "{" + item.Text + "}");
+            streamTitle.SelectionStart = selectionIndex + ("{" + item.Text + "}").Length;
         }
         private void AddVariableContextMenuItemGameClick(object sender, EventArgs e)
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            var selectionIndex = this.game.SelectionStart;
-            this.game.Text = this.game.Text.Insert(selectionIndex, "{" + item.Text + "}");
-            this.game.SelectionStart = selectionIndex + ("{" + item.Text + "}").Length;
+            var item = (ToolStripMenuItem)sender;
+            var selectionIndex = game.SelectionStart;
+            game.Text = game.Text.Insert(selectionIndex, "{" + item.Text + "}");
+            game.SelectionStart = selectionIndex + ("{" + item.Text + "}").Length;
         }
 
         private void CbxStreamTitle_CheckedChanged(object sender, EventArgs e)

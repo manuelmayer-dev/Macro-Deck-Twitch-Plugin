@@ -21,44 +21,44 @@ namespace SuchByte.TwitchPlugin.Views
         public SetEmoteChatActionConfigView(PluginAction action)
         {
             InitializeComponent();
-            this.radioOn.Text = PluginLanguageManager.PluginStrings.On;
-            this.radioOff.Text = PluginLanguageManager.PluginStrings.Off;
-            this.radioToggle.Text = PluginLanguageManager.PluginStrings.Toggle;
-            this._viewModel = new SetEmoteChatActionConfigViewModel(action);
+            radioOn.Text = PluginLanguageManager.PluginStrings.On;
+            radioOff.Text = PluginLanguageManager.PluginStrings.Off;
+            radioToggle.Text = PluginLanguageManager.PluginStrings.Toggle;
+            _viewModel = new SetEmoteChatActionConfigViewModel(action);
         }
 
         private void SetEmoteChatActionConfigView_Load(object sender, EventArgs e)
         {
-            switch (this._viewModel.Method)
+            switch (_viewModel.Method)
             {
                 case Models.SetEmoteChatActionMethod.On:
-                    this.radioOn.Checked = true;
+                    radioOn.Checked = true;
                     break;
                 case Models.SetEmoteChatActionMethod.Off:
-                    this.radioOff.Checked = true;
+                    radioOff.Checked = true;
                     break;
                 case Models.SetEmoteChatActionMethod.Toggle:
-                    this.radioToggle.Checked = true;
+                    radioToggle.Checked = true;
                     break;
             }
         }
 
         public override bool OnActionSave()
         {
-            if (this.radioOn.Checked)
+            if (radioOn.Checked)
             {
-                this._viewModel.Method = Models.SetEmoteChatActionMethod.On;
+                _viewModel.Method = Models.SetEmoteChatActionMethod.On;
             }
-            else if (this.radioOff.Checked)
+            else if (radioOff.Checked)
             {
-                this._viewModel.Method = Models.SetEmoteChatActionMethod.Off;
+                _viewModel.Method = Models.SetEmoteChatActionMethod.Off;
             }
-            else if (this.radioToggle.Checked)
+            else if (radioToggle.Checked)
             {
-                this._viewModel.Method = Models.SetEmoteChatActionMethod.Toggle;
+                _viewModel.Method = Models.SetEmoteChatActionMethod.Toggle;
             }
 
-            return this._viewModel.SaveConfig();
+            return _viewModel.SaveConfig();
         }
     }
 }

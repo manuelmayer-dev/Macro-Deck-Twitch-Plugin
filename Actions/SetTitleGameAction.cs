@@ -19,24 +19,30 @@ namespace SuchByte.TwitchPlugin.Actions
 
         public override bool CanConfigure => true;
 
-        public override void Trigger(string clientId, ActionButton actionButton)
+        public override async void Trigger(string clientId, ActionButton actionButton)
         {
-            var configModel = SetTitleGameActionConfigModel.Deserialize(this.Configuration);
-            if (configModel != null)
+            var configModel = SetTitleGameActionConfigModel.Deserialize(Configuration);
+            if (configModel == null)
             {
-                foreach (MacroDeck.Variables.Variable variable in MacroDeck.Variables.VariableManager.Variables)
-                {
-                    if (configModel.StreamTitle.ToLower().Contains("{" + variable.Name.ToLower() + "}"))
-                    {
-                        configModel.StreamTitle = configModel.StreamTitle.Replace("{" + variable.Name + "}", variable.Value.ToString(), StringComparison.OrdinalIgnoreCase);
-                    }
-                    if (configModel.Game.ToLower().Contains("{" + variable.Name.ToLower() + "}"))
-                    {
-                        configModel.Game = configModel.Game.Replace("{" + variable.Name + "}", variable.Value.ToString(), StringComparison.OrdinalIgnoreCase);
-                    }
-                }
-                TwitchHelper.SetTitleGame(configModel.UseStreamTitle ? configModel.StreamTitle : null, configModel.UseGame ? configModel.Game : null);
+                return;
             }
+            
+            foreach (var variable in MacroDeck.Variables.VariableManager.Variables)
+            {
+                if (configModel.StreamTitle.ToLower().Contains("{" + variable.Name.ToLower() + "}"))
+                {
+                    configModel.StreamTitle = configModel.StreamTitle.Replace("{" + variable.Name + "}", variable.Value,
+                        StringComparison.OrdinalIgnoreCase);
+                }
+                if (configModel.Game.ToLower().Contains("{" + variable.Name.ToLower() + "}"))
+                {
+                    configModel.Game = configModel.Game.Replace("{" + variable.Name + "}", variable.Value,
+                        StringComparison.OrdinalIgnoreCase);
+                }
+            }
+
+            await TwitchHelper.SetTitleGame(configModel.UseStreamTitle ? configModel.StreamTitle : null,
+                configModel.UseGame ? configModel.Game : null);
         }
 
         public override ActionConfigControl GetActionConfigControl(ActionConfigurator actionConfigurator)

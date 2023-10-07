@@ -23,13 +23,13 @@ namespace SuchByte.TwitchPlugin.ViewModels
 
         public SendChatMessageActionConfigViewModel(PluginAction action)
         {
-            this.Configuration = SendChatMessageActionConfigModel.Deserialize(action.Configuration);
-            this._action = action;
+            Configuration = SendChatMessageActionConfigModel.Deserialize(action.Configuration);
+            _action = action;
         }
 
         public bool SaveConfig()
         {
-            if (string.IsNullOrWhiteSpace(this.Message))
+            if (string.IsNullOrWhiteSpace(Message))
             {
                 return false;
             }

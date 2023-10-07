@@ -7,9 +7,9 @@ namespace SuchByte.TwitchPlugin.Language
     public class PluginStrings
     {
 
-        public string __Language__ = "English";
-        public string __LanguageCode__ = "en";
-        public string __Author__ = "Macro Deck";
+        public string ActionLanguage = "English";
+        public string ActionLanguageCode = "en";
+        public string ActionAuthor = "Macro Deck";
 
         public string ActionClearChat = "Clear chat";
         public string ActionClearChatDescription = "Clears the chat";
