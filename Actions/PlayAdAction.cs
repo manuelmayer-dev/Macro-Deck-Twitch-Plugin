@@ -22,8 +22,13 @@ namespace SuchByte.TwitchPlugin.Actions
 
         public override void Trigger(string clientId, ActionButton actionButton)
         {
-            object commercialLength;
-            Enum.TryParse(typeof(CommercialLength), PlayAdActionConfigModel.Deserialize(this.Configuration).Length.ToString(), out commercialLength);
+            Enum.TryParse(typeof(CommercialLength),
+                PlayAdActionConfigModel.Deserialize(Configuration).Length.ToString(), out var commercialLength);
+            if (commercialLength is null)
+            {
+                return;
+            }
+                
             TwitchHelper.PlayAd((CommercialLength)commercialLength);
         }
 

@@ -29,8 +29,8 @@ namespace SuchByte.TwitchPlugin.ViewModels
 
         public SetFollowerChatActionConfigViewModel(PluginAction action)
         {
-            this.Configuration = SetFollowerChatActionConfigModel.Deserialize(action.Configuration);
-            this._action = action;
+            Configuration = SetFollowerChatActionConfigModel.Deserialize(action.Configuration);
+            _action = action;
         }
 
         public bool SaveConfig()

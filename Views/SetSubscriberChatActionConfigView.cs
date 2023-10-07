@@ -20,45 +20,45 @@ namespace SuchByte.TwitchPlugin.Views
         public SetSubscriberChatActionConfigView(PluginAction action)
         {
             InitializeComponent();
-            this.radioOn.Text = PluginLanguageManager.PluginStrings.On;
-            this.radioOff.Text = PluginLanguageManager.PluginStrings.Off;
-            this.radioToggle.Text = PluginLanguageManager.PluginStrings.Toggle;
+            radioOn.Text = PluginLanguageManager.PluginStrings.On;
+            radioOff.Text = PluginLanguageManager.PluginStrings.Off;
+            radioToggle.Text = PluginLanguageManager.PluginStrings.Toggle;
 
-            this._viewModel = new SetSubscriberChatActionConfigViewModel(action);
+            _viewModel = new SetSubscriberChatActionConfigViewModel(action);
         }
 
         private void SetSubscriberChatActionConfigView_Load(object sender, EventArgs e)
         {
-            switch (this._viewModel.Method)
+            switch (_viewModel.Method)
             {
                 case Models.SetSubscriberChatActionMethod.On:
-                    this.radioOn.Checked = true;
+                    radioOn.Checked = true;
                     break;
                 case Models.SetSubscriberChatActionMethod.Off:
-                    this.radioOff.Checked = true;
+                    radioOff.Checked = true;
                     break;
                 case Models.SetSubscriberChatActionMethod.Toggle:
-                    this.radioToggle.Checked = true;
+                    radioToggle.Checked = true;
                     break;
             }
         }
 
         public override bool OnActionSave()
         {
-            if (this.radioOn.Checked)
+            if (radioOn.Checked)
             {
-                this._viewModel.Method = Models.SetSubscriberChatActionMethod.On;
+                _viewModel.Method = Models.SetSubscriberChatActionMethod.On;
             }
-            else if (this.radioOff.Checked)
+            else if (radioOff.Checked)
             {
-                this._viewModel.Method = Models.SetSubscriberChatActionMethod.Off;
+                _viewModel.Method = Models.SetSubscriberChatActionMethod.Off;
             }
-            else if (this.radioToggle.Checked)
+            else if (radioToggle.Checked)
             {
-                this._viewModel.Method = Models.SetSubscriberChatActionMethod.Toggle;
+                _viewModel.Method = Models.SetSubscriberChatActionMethod.Toggle;
             }
 
-            return this._viewModel.SaveConfig();
+            return _viewModel.SaveConfig();
         }
     }
 }

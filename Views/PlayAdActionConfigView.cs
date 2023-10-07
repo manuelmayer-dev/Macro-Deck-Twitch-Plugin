@@ -22,27 +22,27 @@ namespace SuchByte.TwitchPlugin.Views
         public PlayAdActionConfigView(PluginAction action)
         {
             InitializeComponent();
-            this.lblLength.Text = PluginLanguageManager.PluginStrings.GeneralLength;
+            lblLength.Text = PluginLanguageManager.PluginStrings.GeneralLength;
 
-            this._viewModel = new PlayAdActionConfigViewModel(action);
+            _viewModel = new PlayAdActionConfigViewModel(action);
         }
 
         private void PlayAdActionConfigView_Load(object sender, EventArgs e)
         {
-            foreach (CommercialLength length in (CommercialLength[])Enum.GetValues(typeof(CommercialLength)))
+            foreach (var length in (CommercialLength[])Enum.GetValues(typeof(CommercialLength)))
             {
-                this.commercialLenght.Items.Add((int)length);
+                commercialLenght.Items.Add((int)length);
             }
-            this.commercialLenght.Text = this._viewModel.Configuration.Length.ToString();
+            commercialLenght.Text = _viewModel.Configuration.Length.ToString();
         }
 
         public override bool OnActionSave()
         {
-            if (Int32.TryParse(this.commercialLenght.Text, out int length))
+            if (Int32.TryParse(commercialLenght.Text, out var length))
             {
-                this._viewModel.Length = length;
+                _viewModel.Length = length;
             }
-            return this._viewModel.SaveConfig();
+            return _viewModel.SaveConfig();
         }
     }
 }

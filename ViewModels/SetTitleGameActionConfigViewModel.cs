@@ -41,8 +41,8 @@ namespace SuchByte.TwitchPlugin.ViewModels
 
         public SetTitleGameActionConfigViewModel(PluginAction action)
         {
-            this.Configuration = SetTitleGameActionConfigModel.Deserialize(action.Configuration);
-            this._action = action;
+            Configuration = SetTitleGameActionConfigModel.Deserialize(action.Configuration);
+            _action = action;
         }
 
         public bool SaveConfig()
@@ -61,9 +61,9 @@ namespace SuchByte.TwitchPlugin.ViewModels
 
         public void SetConfig()
         {
-            if (this.UseStreamTitle && this.UseGame) _action.ConfigurationSummary = "Stream title: " + this.StreamTitle + " | " + "Game: " + this.Game;
-            else if (this.UseStreamTitle) _action.ConfigurationSummary = "Stream title: " + this.StreamTitle;
-            else if (this.UseGame) _action.ConfigurationSummary = "Game: " + this.Game;
+            if (UseStreamTitle && UseGame) _action.ConfigurationSummary = "Stream title: " + StreamTitle + " | " + "Game: " + Game;
+            else if (UseStreamTitle) _action.ConfigurationSummary = "Stream title: " + StreamTitle;
+            else if (UseGame) _action.ConfigurationSummary = "Game: " + Game;
             else _action.ConfigurationSummary = "Deactivated";
             _action.Configuration = Configuration.Serialize();
         }

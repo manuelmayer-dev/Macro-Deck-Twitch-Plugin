@@ -13,7 +13,7 @@ namespace SuchByte.TwitchPlugin
 
         public static void UpdateCredentials(TwitchAccount twitchAccount)
         {
-            Dictionary<string, string> credentials = new Dictionary<string, string>
+            var credentials = new Dictionary<string, string>
             {
                 ["token"] = twitchAccount.TwitchAccessToken
             };
@@ -26,9 +26,9 @@ namespace SuchByte.TwitchPlugin
             TwitchAccount account = null;
             try
             {
-                List<Dictionary<string, string>> credentialsList = PluginCredentials.GetPluginCredentials(PluginInstance.Main);
+                var credentialsList = PluginCredentials.GetPluginCredentials(PluginInstance.Main);
                 if (credentialsList == null || credentialsList.Count == 0) return null;
-                Dictionary<string, string> credentials = credentialsList.FirstOrDefault();
+                var credentials = credentialsList.FirstOrDefault();
                 if (credentials == null) return null;
                 account = new TwitchAccount()
                 {

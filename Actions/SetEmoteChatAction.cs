@@ -21,7 +21,7 @@ namespace SuchByte.TwitchPlugin.Actions
 
         public override void Trigger(string clientId, ActionButton actionButton)
         {
-            var configModel = SetSlowChatActionConfigModel.Deserialize(this.Configuration);
+            var configModel = SetSlowChatActionConfigModel.Deserialize(Configuration);
             if (configModel != null)
             {
                 switch (configModel.Method)

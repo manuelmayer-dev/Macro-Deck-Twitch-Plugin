@@ -20,43 +20,43 @@ namespace SuchByte.TwitchPlugin.Views
         public SendChatMessageActionConfigView(PluginAction action)
         {
             InitializeComponent();
-            this.btnAddVariable.Text = PluginLanguageManager.PluginStrings.AddVariable;
-            this._viewModel = new SendChatMessageActionConfigViewModel(action);
+            btnAddVariable.Text = PluginLanguageManager.PluginStrings.AddVariable;
+            _viewModel = new SendChatMessageActionConfigViewModel(action);
         }
 
         private void SendChatMessageActionConfigView_Load(object sender, EventArgs e)
         {
-            this.message.Text = this._viewModel.Message;
+            message.Text = _viewModel.Message;
         }
 
         public override bool OnActionSave()
         {
-            this._viewModel.Message = this.message.Text;
-            return this._viewModel.SaveConfig();
+            _viewModel.Message = message.Text;
+            return _viewModel.SaveConfig();
         }
 
         private void BtnAddVariable_Click(object sender, EventArgs e)
         {
-            this.variablesContextMenu.Items.Clear();
-            foreach (MacroDeck.Variables.Variable variable in MacroDeck.Variables.VariableManager.Variables)
+            variablesContextMenu.Items.Clear();
+            foreach (var variable in MacroDeck.Variables.VariableManager.Variables)
             {
-                ToolStripMenuItem item = new ToolStripMenuItem
+                var item = new ToolStripMenuItem
                 {
                     ForeColor = Color.White,
                     Text = variable.Name,
                 };
                 item.Click += AddVariableContextMenuItemClick;
-                this.variablesContextMenu.Items.Add(item);
+                variablesContextMenu.Items.Add(item);
             }
-            this.variablesContextMenu.Show(PointToScreen(new Point(((ButtonPrimary)sender).Bounds.Left, ((ButtonPrimary)sender).Bounds.Bottom)));
+            variablesContextMenu.Show(PointToScreen(new Point(((ButtonPrimary)sender).Bounds.Left, ((ButtonPrimary)sender).Bounds.Bottom)));
         }
 
         private void AddVariableContextMenuItemClick(object sender, EventArgs e)
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            var selectionIndex = this.message.SelectionStart;
-            this.message.Text = this.message.Text.Insert(selectionIndex, "{" + item.Text + "}");
-            this.message.SelectionStart = selectionIndex + ("{" + item.Text + "}").Length;
+            var item = (ToolStripMenuItem)sender;
+            var selectionIndex = message.SelectionStart;
+            message.Text = message.Text.Insert(selectionIndex, "{" + item.Text + "}");
+            message.SelectionStart = selectionIndex + ("{" + item.Text + "}").Length;
         }
     }
 }
